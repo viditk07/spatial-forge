@@ -1,0 +1,5 @@
+SpatialForge application source is provided under the terms selected by its copyright
+holder. Third-party components retain their respective licences. See
+THIRD_PARTY_NOTICES.md and DEPENDENCY_LICENSES.md in the installation directory.
+
+No warranty is made that generated geometry or measurements are survey-grade.
