@@ -27,7 +27,7 @@ dependencies = [
 [project.optional-dependencies]
 vision = [
   "numpy==2.5.1",
-  "opencv-python-headless==4.13.0.92",
+  "opencv-python-headless==5.0.0.93",
 ]
 packaging = ["packaging==26.2", "pyinstaller==6.21.0"]
 dev = [
