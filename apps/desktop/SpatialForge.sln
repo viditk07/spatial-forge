@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialForge.Desktop.Core", "src\SpatialForge.Desktop.Core\SpatialForge.Desktop.Core.csproj", "{15AB2C37-D339-4BAD-80D3-3D823314E189}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialForge.Desktop", "src\SpatialForge.Desktop\SpatialForge.Desktop.csproj", "{34D6EE9A-8EE1-4489-8A6F-15E38B27E1C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialForge.Desktop.Core.Tests", "tests\SpatialForge.Desktop.Core.Tests\SpatialForge.Desktop.Core.Tests.csproj", "{EB64E55A-6971-40F5-AC97-A7DD6426E0B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15AB2C37-D339-4BAD-80D3-3D823314E189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15AB2C37-D339-4BAD-80D3-3D823314E189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15AB2C37-D339-4BAD-80D3-3D823314E189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15AB2C37-D339-4BAD-80D3-3D823314E189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34D6EE9A-8EE1-4489-8A6F-15E38B27E1C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D6EE9A-8EE1-4489-8A6F-15E38B27E1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34D6EE9A-8EE1-4489-8A6F-15E38B27E1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D6EE9A-8EE1-4489-8A6F-15E38B27E1C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB64E55A-6971-40F5-AC97-A7DD6426E0B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB64E55A-6971-40F5-AC97-A7DD6426E0B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB64E55A-6971-40F5-AC97-A7DD6426E0B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB64E55A-6971-40F5-AC97-A7DD6426E0B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

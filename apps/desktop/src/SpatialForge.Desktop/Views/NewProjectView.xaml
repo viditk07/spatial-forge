@@ -1,0 +1,42 @@
+<UserControl x:Class="SpatialForge.Desktop.Views.NewProjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="44" MaxWidth="860" HorizontalAlignment="Left">
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="New reconstruction project" FontSize="28" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding StepLabel}" Foreground="{StaticResource AccentBrush}" Margin="0,8,0,0" />
+        </StackPanel>
+        <Border Grid.Row="1" Background="{StaticResource PanelBrush}" CornerRadius="8" Padding="28" Margin="0,24,0,24">
+            <StackPanel>
+                <TextBlock Text="Project type" Foreground="{StaticResource SecondaryTextBrush}" />
+                <ComboBox ItemsSource="{Binding ProjectTypes}" SelectedItem="{Binding ProjectType}" Margin="0,6,0,18" />
+                <TextBlock Text="Project name" Foreground="{StaticResource SecondaryTextBrush}" />
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="0,6,0,18" />
+                <TextBlock Text="Notes (optional)" Foreground="{StaticResource SecondaryTextBrush}" />
+                <TextBox Text="{Binding Notes}" Height="70" AcceptsReturn="True" Margin="0,6,0,18" />
+                <TextBlock Text="Project directory" Foreground="{StaticResource SecondaryTextBrush}" />
+                <TextBlock Text="{Binding ProjectDirectory, TargetNullValue=Default SpatialForgeProjects folder}"
+                           TextWrapping="Wrap" Margin="0,6,0,6" />
+                <Button Content="Choose project directory" Command="{Binding ChooseProjectDirectoryCommand}"
+                        HorizontalAlignment="Left" Margin="0,0,0,18" />
+                <TextBlock Text="Imported photographs" Foreground="{StaticResource SecondaryTextBrush}" />
+                <TextBlock Text="{Binding ImportedImageCount, StringFormat={}{0} photographs ready}"
+                           FontSize="17" Margin="0,6,0,18" />
+                <Button Content="Select and analyse photographs" Command="{Binding ImportPhotosCommand}"
+                        HorizontalAlignment="Left" Margin="0,0,0,18" />
+                <Button Content="Review quality warnings" Command="{Binding ReviewImagesCommand}"
+                        HorizontalAlignment="Left" Margin="0,0,0,18" />
+                <TextBlock Text="Processing preset" Foreground="{StaticResource SecondaryTextBrush}" />
+                <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"
+                          DisplayMemberPath="Name" Margin="0,6,0,0" />
+                <TextBlock Text="Photo selection uses the Windows folder picker. Originals are copied unchanged."
+                           Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" Margin="0,20,0,0" />
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Back" Command="{Binding BackCommand}" />
+            <Button Content="Continue" Background="{StaticResource AccentBrush}" Command="{Binding NextCommand}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

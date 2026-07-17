@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "spatialforge-backend"
+version = "0.1.0"
+description = "Local-only SpatialForge application backend"
+requires-python = ">=3.12"
+dependencies = [
+  "alembic==1.18.5",
+  "fastapi==0.139.2",
+  "fast-simplification==0.1.13",
+  "httpx==0.28.1",
+  "pillow==11.3.0",
+  "psutil==7.2.2",
+  "pydantic==2.13.4",
+  "pydantic-settings==2.14.2",
+  "python-multipart==0.0.32",
+  "sqlalchemy==2.0.51",
+  "structlog==25.5.0",
+  "trimesh==4.12.2",
+  "typer==0.27.0",
+  "uvicorn[standard]==0.51.0",
+]
+
+[project.optional-dependencies]
+vision = [
+  "numpy==2.5.1",
+  "opencv-python-headless==4.13.0.92",
+]
+packaging = ["packaging==26.2", "pyinstaller==6.21.0"]
+dev = [
+  "build==1.5.0",
+  "mypy==1.20.2",
+  "pytest==8.4.2",
+  "pytest-asyncio==0.26.0",
+  "pytest-cov==7.1.0",
+  "ruff==0.15.22",
+  "types-psutil==7.2.2.20260518",
+]
+
+[project.scripts]
+spatialforge = "spatialforge_backend.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spatialforge_backend"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"migrations" = "spatialforge_backend/migrations"
+"alembic.ini" = "spatialforge_backend/alembic.ini"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC", "S", "RUF"]
+ignore = ["S101", "B008"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy", "sqlalchemy.ext.mypy.plugin"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"

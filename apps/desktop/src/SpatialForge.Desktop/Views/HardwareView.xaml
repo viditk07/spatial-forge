@@ -1,0 +1,44 @@
+<UserControl x:Class="SpatialForge.Desktop.Views.HardwareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Margin="42" MaxWidth="760" HorizontalAlignment="Left">
+        <TextBlock Text="Hardware report" FontSize="28" FontWeight="SemiBold" />
+        <TextBlock Text="Capabilities are detected locally and used only to recommend safe presets."
+                   Foreground="{StaticResource SecondaryTextBrush}" Margin="0,8,0,24" />
+        <Border Background="{StaticResource PanelBrush}" CornerRadius="8" Padding="24">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="200" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="34" /><RowDefinition Height="34" /><RowDefinition Height="34" />
+                    <RowDefinition Height="34" /><RowDefinition Height="34" /><RowDefinition Height="34" />
+                    <RowDefinition Height="34" /><RowDefinition Height="34" /><RowDefinition Height="34" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Operating system" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Column="1" Text="{Binding Profile.OperatingSystem}" />
+                <TextBlock Grid.Row="1" Text="CPU" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Profile.CpuModel}" />
+                <TextBlock Grid.Row="2" Text="Logical cores" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Profile.LogicalCoreCount}" />
+                <TextBlock Grid.Row="3" Text="Memory" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Profile.MemoryTotalMb, StringFormat={}{0} MB}" />
+                <TextBlock Grid.Row="4" Text="GPU" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Profile.GpuModel, TargetNullValue=Not detected}" />
+                <TextBlock Grid.Row="5" Text="Recommended preset" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Profile.RecommendedPreset}" Foreground="{StaticResource AccentBrush}" />
+                <TextBlock Grid.Row="6" Text="Available memory" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Profile.MemoryAvailableMb, StringFormat={}{0} MB}" />
+                <TextBlock Grid.Row="7" Text="GPU memory / CUDA" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="7" Grid.Column="1"><Run Text="{Binding Profile.GpuMemoryMb, TargetNullValue=Unknown}" /><Run Text=" MB · CUDA " /><Run Text="{Binding Profile.CudaAvailable}" /></TextBlock>
+                <TextBlock Grid.Row="8" Text="OpenGL" Foreground="{StaticResource SecondaryTextBrush}" /><TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding Profile.OpenGlVersion, TargetNullValue=Runtime probe unavailable}" />
+            </Grid>
+        </Border>
+        <TextBlock Text="Local engine availability" FontSize="18" FontWeight="SemiBold" Margin="0,20,0,8" />
+        <ItemsControl ItemsSource="{Binding Dependencies}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,3">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="180" /><ColumnDefinition Width="90" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Available}" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock Grid.Column="2" Text="{Binding Version, TargetNullValue=Not installed}"
+                                   Foreground="{StaticResource SecondaryTextBrush}" TextTrimming="CharacterEllipsis" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Content="Refresh hardware report" Command="{Binding RefreshCommand}"
+                HorizontalAlignment="Left" Margin="0,16,0,0" />
+    </StackPanel>
+</UserControl>
