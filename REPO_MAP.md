@@ -3,17 +3,23 @@
 - `apps/backend`: local FastAPI API, CLI, persistence, image analysis, jobs, exports.
 - `apps/desktop`: WPF solution, MVVM screens, backend lifecycle and API client.
 - `apps/viewer`: bundled Three.js/WebView2 application and viewer tests.
-- `packages/contracts`: versioned cross-process JSON/OpenAPI contracts.
-- `packages/shared`: generated or language-neutral shared assets.
-- `packages/test-data`: small redistributable fixtures and fixture licence metadata.
-- `engines`: COLMAP, OpenMVS, and Blender adapter documentation/configuration.
+- `packages/test-data`: small redistributable fixtures and fixture licence metadata
+  (currently `models/tetrahedron.ply`).
+- `packages/contracts`: reserved for versioned cross-process JSON/OpenAPI contracts (currently empty).
+- `packages/shared`: reserved for generated or language-neutral shared assets (currently empty).
+- `engines`: reserved for COLMAP, OpenMVS, and Blender adapter documentation/configuration
+  (currently empty). The engine adapter *code* lives in
+  `apps/backend/src/spatialforge_backend/engines`.
 - `docs`: architecture, product, development, testing, deployment and user guides.
 - `scripts`: cross-component validation, release-notice collection, and packaging entry points.
-- `tests/e2e`: mocked-engine whole-workflow tests.
-- `samples`: non-user sample configurations and tiny outputs.
-- `tools`: development-only utilities; proprietary binaries are excluded.
+- `samples`: reserved for non-user sample configurations and tiny outputs (currently empty).
+- `tools`: reserved for development-only utilities; proprietary binaries are excluded (currently empty).
 - `packaging`: reproducible Windows packaging definitions.
 - `.github/workflows`: CI and optional Windows packaging/engine jobs.
+
+The mocked-engine whole-workflow test lives in
+`apps/backend/tests/test_job_orchestration.py`; the top-level `tests/` directory is reserved for
+future cross-component end-to-end tests and is currently empty.
 
 Backend entry points are `spatialforge_backend.__main__` and
 `spatialforge_backend.api.app:create_app`. Database models live under `db`; migrations
