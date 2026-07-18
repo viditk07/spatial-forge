@@ -11,12 +11,7 @@ public sealed class WindowsConfirmationService : IConfirmationService
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        MessageBoxResult result = MessageBox.Show(
-            message,
-            title,
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning,
-            MessageBoxResult.No);
-        return Task.FromResult(result == MessageBoxResult.Yes);
+        SpatialForgeDialog dialog = new(title, message, "Confirm", "Cancel", isWarning: true);
+        return Task.FromResult(dialog.ShowDialog() == true);
     }
 }

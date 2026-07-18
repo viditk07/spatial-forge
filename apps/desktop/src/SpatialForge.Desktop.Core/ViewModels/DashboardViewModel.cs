@@ -93,7 +93,7 @@ public sealed class DashboardViewModel : ViewModelBase
         DependencyStatus? colmap = dependencies.FirstOrDefault(item => item.Name == "colmap");
         DependencySummary = colmap?.Available == true
             ? $"COLMAP ready · {colmap.Version ?? "version unavailable"}"
-            : "COLMAP is not installed · project review remains available";
+            : "COLMAP is not installed. Project review remains available.";
     });
 
     public async Task OpenSelectedProjectAsync()

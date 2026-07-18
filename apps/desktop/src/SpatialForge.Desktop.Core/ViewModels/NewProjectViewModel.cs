@@ -14,6 +14,8 @@ public enum WizardStep
     ProcessingPreset = 5,
 }
 
+public sealed record ProjectTypeOption(string Id, string Name, string Description, string Icon);
+
 public sealed class NewProjectViewModel : ViewModelBase
 {
     private readonly ISpatialForgeApiClient _apiClient;
@@ -69,14 +71,42 @@ public sealed class NewProjectViewModel : ViewModelBase
             if (SetProperty(ref _step, value))
             {
                 OnPropertyChanged(nameof(StepLabel));
+                OnPropertyChanged(nameof(CurrentStepTitle));
+                OnPropertyChanged(nameof(CurrentStepDescription));
+                OnPropertyChanged(nameof(NextButtonLabel));
                 NotifyCommands();
             }
         }
     }
 
     public string StepLabel => $"Step {(int)Step} of 5";
-    public IReadOnlyList<string> ProjectTypes { get; } =
-        ["single_room", "connected_rooms", "building_interior", "building_exterior", "experimental"];
+    public string CurrentStepTitle => Step switch
+    {
+        WizardStep.ProjectType => "Choose the spatial scope",
+        WizardStep.Details => "Name and locate your project",
+        WizardStep.PhotoImport => "Add your source photographs",
+        WizardStep.QualityReview => "Review capture quality",
+        _ => "Choose processing quality",
+    };
+    public string CurrentStepDescription => Step switch
+    {
+        WizardStep.ProjectType => "Select the scene type so SpatialForge can guide reconstruction settings.",
+        WizardStep.Details => "Project files stay in the folder you choose and are never uploaded.",
+        WizardStep.PhotoImport => "Choose overlapping smartphone photos transferred to this computer.",
+        WizardStep.QualityReview => "Warnings are advisory. You stay in control of every included photograph.",
+        _ => "Review the project summary and start local reconstruction when ready.",
+    };
+    public string NextButtonLabel => Step == WizardStep.ProcessingPreset
+        ? "Start reconstruction"
+        : "Continue";
+    public IReadOnlyList<ProjectTypeOption> ProjectTypeOptions { get; } =
+    [
+        new("single_room", "Single room", "One enclosed room captured from its perimeter.", "\uE809"),
+        new("connected_rooms", "Connected rooms", "A continuous capture through adjacent spaces.", "\uE8A9"),
+        new("building_interior", "Building interior", "A larger interior with corridors or multiple areas.", "\uE80F"),
+        new("building_exterior", "Building exterior", "Façades and outdoor architectural geometry.", "\uE707"),
+        new("experimental", "Experimental", "Unusual scenes using conservative, flexible defaults.", "\uE9CA"),
+    ];
 
     public string ProjectType
     {

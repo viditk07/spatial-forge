@@ -121,15 +121,14 @@ public partial class App : Application
             return true;
         }
 
-        MessageBoxResult result = MessageBox.Show(
-            "SpatialForge processes photographs, models, metadata, and logs only on this computer. "
-            + "Uploads, telemetry, crash reporting, and automatic update checks are disabled.\n\n"
-            + "Choose Continue to accept this local-processing privacy policy.",
-            "SpatialForge privacy",
-            MessageBoxButton.OKCancel,
-            MessageBoxImage.Information,
-            MessageBoxResult.OK);
-        if (result != MessageBoxResult.OK)
+        SpatialForgeDialog dialog = new(
+            "Your work stays on this computer",
+            "SpatialForge processes photos, models, metadata and logs locally. "
+            + "Uploads, telemetry, crash reporting and automatic update checks are disabled.\n\n"
+            + "Continue to accept this local-processing privacy notice.",
+            "Continue",
+            "Exit");
+        if (dialog.ShowDialog() != true)
         {
             return false;
         }

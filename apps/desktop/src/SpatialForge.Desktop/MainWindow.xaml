@@ -1,47 +1,91 @@
 <Window x:Class="SpatialForge.Desktop.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SpatialForge" Width="1280" Height="820" MinWidth="1024" MinHeight="680"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="SpatialForge — Local 3D Reconstruction" Width="1440" Height="900"
+        MinWidth="1120" MinHeight="700" WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <Grid Background="{StaticResource AppBackground}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="224" />
+            <ColumnDefinition Width="240" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border Background="#141E27" BorderBrush="#263847" BorderThickness="0,0,1,0">
-            <Grid Margin="18">
+        <Border Background="{StaticResource SidebarBackground}" BorderBrush="{StaticResource BorderSubtle}" BorderThickness="0,0,1,0">
+            <Grid Margin="16,18,16,14">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="28" />
+                    <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <TextBlock Text="SPATIALFORGE" FontSize="19" FontWeight="SemiBold" />
-                    <TextBlock Text="LOCAL 3D RECONSTRUCTION" Foreground="{StaticResource AccentBrush}"
-                               FontSize="10" Margin="0,4,0,0" />
-                </StackPanel>
-                <StackPanel Grid.Row="2">
-                    <Button Content="Dashboard" HorizontalContentAlignment="Left"
-                            Command="{Binding DashboardCommand}" />
-                    <Button Content="New project" HorizontalContentAlignment="Left"
-                            Command="{Binding NewProjectCommand}" />
-                    <Button Content="Hardware" HorizontalContentAlignment="Left"
-                            Command="{Binding HardwareCommand}" />
-                    <Button Content="Model review" HorizontalContentAlignment="Left"
-                            Command="{Binding ModelReviewCommand}" />
-                    <Button Content="Settings" HorizontalContentAlignment="Left"
-                            Command="{Binding SettingsCommand}" />
-                </StackPanel>
-                <Border Grid.Row="3" Background="#102D29" CornerRadius="6" Padding="10">
-                    <StackPanel>
-                        <TextBlock Text="● LOCAL ONLY" Foreground="#56C59A" FontWeight="SemiBold" />
-                        <TextBlock Text="No photos leave this computer" Foreground="{StaticResource SecondaryTextBrush}"
-                                   FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" />
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="42" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                    <Border Width="36" Height="36" CornerRadius="9" Background="{StaticResource AccentSoft}"
+                            BorderBrush="#2D6D8B" BorderThickness="1">
+                        <Grid Width="23" Height="23">
+                            <Path Data="M2,6 L11.5,1 L21,6 L11.5,11 Z M2,6 L2,17 L11.5,22 L11.5,11 Z M21,6 L21,17 L11.5,22 L11.5,11"
+                                  Stroke="{StaticResource AccentPrimary}" StrokeThickness="1.7" StrokeLineJoin="Round" />
+                            <Ellipse Width="3.5" Height="3.5" Fill="{StaticResource TextPrimary}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="SpatialForge" FontSize="18" FontWeight="SemiBold" />
+                        <TextBlock Text="LOCAL 3D RECONSTRUCTION" Foreground="{StaticResource TextMuted}"
+                                   FontSize="9" FontWeight="SemiBold" Margin="0,2,0,0" />
                     </StackPanel>
+                </Grid>
+                <StackPanel Grid.Row="2">
+                    <TextBlock Text="WORKSPACE" Style="{StaticResource Eyebrow}" Margin="12,0,0,8" />
+                    <Button Command="{Binding DashboardCommand}" Style="{StaticResource NavButton}" Tag="{Binding IsDashboardActive}"
+                            AutomationProperties.Name="Dashboard">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE80F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16" Width="30" /><TextBlock Text="Dashboard" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding NewProjectCommand}" Style="{StaticResource NavButton}" Tag="{Binding IsNewProjectActive}"
+                            AutomationProperties.Name="New project">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16" Width="30" /><TextBlock Text="New project" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding ModelReviewCommand}" Style="{StaticResource NavButton}" Tag="{Binding IsModelReviewActive}"
+                            AutomationProperties.Name="Model review">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE7B8;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16" Width="30" /><TextBlock Text="Model review" /></StackPanel>
+                    </Button>
+                    <TextBlock Text="SYSTEM" Style="{StaticResource Eyebrow}" Margin="12,24,0,8" />
+                    <Button Command="{Binding HardwareCommand}" Style="{StaticResource NavButton}" Tag="{Binding IsHardwareActive}"
+                            AutomationProperties.Name="Hardware report">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE950;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16" Width="30" /><TextBlock Text="Hardware" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding SettingsCommand}" Style="{StaticResource NavButton}" Tag="{Binding IsSettingsActive}"
+                            AutomationProperties.Name="Settings">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE713;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16" Width="30" /><TextBlock Text="Settings" /></StackPanel>
+                    </Button>
+                </StackPanel>
+                <Border Grid.Row="3" Style="{StaticResource SuccessBadge}" CornerRadius="10" Padding="12" Margin="0,0,0,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="28" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                        <TextBlock Text="&#xE72E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16"
+                                   Foreground="{StaticResource StatusSuccess}" VerticalAlignment="Top" Margin="0,2,0,0" />
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Local processing" Foreground="{StaticResource StatusSuccess}" FontWeight="SemiBold" FontSize="12" />
+                            <TextBlock Text="Photos and models never leave this device." Foreground="{StaticResource TextSecondary}"
+                                       FontSize="11" Margin="0,3,0,0" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
                 </Border>
+                <TextBlock Grid.Row="4" Text="SpatialForge 0.2 · Offline" Foreground="{StaticResource TextMuted}"
+                           FontSize="10" HorizontalAlignment="Center" />
             </Grid>
         </Border>
-        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}" />
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="30" /></Grid.RowDefinitions>
+            <ContentControl Content="{Binding CurrentViewModel}" Focusable="False" />
+            <Border Grid.Row="1" Background="{StaticResource SidebarBackground}" BorderBrush="{StaticResource BorderSubtle}" BorderThickness="0,1,0,0" Padding="16,0">
+                <Grid>
+                    <TextBlock Text="{Binding CurrentPageName}" Foreground="{StaticResource TextMuted}" FontSize="11" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Ellipse Width="6" Height="6" Fill="{StaticResource StatusSuccess}" Margin="0,0,7,0" />
+                        <TextBlock Text="Local service" Foreground="{StaticResource TextSecondary}" FontSize="11" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

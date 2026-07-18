@@ -1,42 +1,98 @@
 <UserControl x:Class="SpatialForge.Desktop.Views.NewProjectView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="44" MaxWidth="860" HorizontalAlignment="Left">
-        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
-        <StackPanel>
-            <TextBlock Text="New reconstruction project" FontSize="28" FontWeight="SemiBold" />
-            <TextBlock Text="{Binding StepLabel}" Foreground="{StaticResource AccentBrush}" Margin="0,8,0,0" />
-        </StackPanel>
-        <Border Grid.Row="1" Background="{StaticResource PanelBrush}" CornerRadius="8" Padding="28" Margin="0,24,0,24">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SpatialForge.Desktop.ViewModels;assembly=SpatialForge.Desktop.Core"
+             AutomationProperties.Name="New project wizard">
+    <UserControl.Resources>
+        <Style x:Key="WizardStepCircle" TargetType="Border">
+            <Setter Property="Width" Value="36" /><Setter Property="Height" Value="36" />
+            <Setter Property="CornerRadius" Value="18" /><Setter Property="Background" Value="{StaticResource SurfaceElevated}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderStrong}" /><Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style x:Key="WizardStep1" TargetType="Border" BasedOn="{StaticResource WizardStepCircle}"><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.ProjectType}"><Setter Property="Background" Value="{StaticResource AccentSoft}" /><Setter Property="BorderBrush" Value="{StaticResource AccentPrimary}" /><Setter Property="BorderThickness" Value="2" /></DataTrigger></Style.Triggers></Style>
+        <Style x:Key="WizardStep2" TargetType="Border" BasedOn="{StaticResource WizardStepCircle}"><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.Details}"><Setter Property="Background" Value="{StaticResource AccentSoft}" /><Setter Property="BorderBrush" Value="{StaticResource AccentPrimary}" /><Setter Property="BorderThickness" Value="2" /></DataTrigger></Style.Triggers></Style>
+        <Style x:Key="WizardStep3" TargetType="Border" BasedOn="{StaticResource WizardStepCircle}"><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.PhotoImport}"><Setter Property="Background" Value="{StaticResource AccentSoft}" /><Setter Property="BorderBrush" Value="{StaticResource AccentPrimary}" /><Setter Property="BorderThickness" Value="2" /></DataTrigger></Style.Triggers></Style>
+        <Style x:Key="WizardStep4" TargetType="Border" BasedOn="{StaticResource WizardStepCircle}"><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.QualityReview}"><Setter Property="Background" Value="{StaticResource AccentSoft}" /><Setter Property="BorderBrush" Value="{StaticResource AccentPrimary}" /><Setter Property="BorderThickness" Value="2" /></DataTrigger></Style.Triggers></Style>
+        <Style x:Key="WizardStep5" TargetType="Border" BasedOn="{StaticResource WizardStepCircle}"><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.ProcessingPreset}"><Setter Property="Background" Value="{StaticResource AccentSoft}" /><Setter Property="BorderBrush" Value="{StaticResource AccentPrimary}" /><Setter Property="BorderThickness" Value="2" /></DataTrigger></Style.Triggers></Style>
+    </UserControl.Resources>
+    <Grid Margin="32">
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="18" /><RowDefinition Height="Auto" /><RowDefinition Height="18" /><RowDefinition Height="*" /><RowDefinition Height="18" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+        <Grid MaxWidth="1180">
             <StackPanel>
-                <TextBlock Text="Project type" Foreground="{StaticResource SecondaryTextBrush}" />
-                <ComboBox ItemsSource="{Binding ProjectTypes}" SelectedItem="{Binding ProjectType}" Margin="0,6,0,18" />
-                <TextBlock Text="Project name" Foreground="{StaticResource SecondaryTextBrush}" />
-                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="0,6,0,18" />
-                <TextBlock Text="Notes (optional)" Foreground="{StaticResource SecondaryTextBrush}" />
-                <TextBox Text="{Binding Notes}" Height="70" AcceptsReturn="True" Margin="0,6,0,18" />
-                <TextBlock Text="Project directory" Foreground="{StaticResource SecondaryTextBrush}" />
-                <TextBlock Text="{Binding ProjectDirectory, TargetNullValue=Default SpatialForgeProjects folder}"
-                           TextWrapping="Wrap" Margin="0,6,0,6" />
-                <Button Content="Choose project directory" Command="{Binding ChooseProjectDirectoryCommand}"
-                        HorizontalAlignment="Left" Margin="0,0,0,18" />
-                <TextBlock Text="Imported photographs" Foreground="{StaticResource SecondaryTextBrush}" />
-                <TextBlock Text="{Binding ImportedImageCount, StringFormat={}{0} photographs ready}"
-                           FontSize="17" Margin="0,6,0,18" />
-                <Button Content="Select and analyse photographs" Command="{Binding ImportPhotosCommand}"
-                        HorizontalAlignment="Left" Margin="0,0,0,18" />
-                <Button Content="Review quality warnings" Command="{Binding ReviewImagesCommand}"
-                        HorizontalAlignment="Left" Margin="0,0,0,18" />
-                <TextBlock Text="Processing preset" Foreground="{StaticResource SecondaryTextBrush}" />
-                <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"
-                          DisplayMemberPath="Name" Margin="0,6,0,0" />
-                <TextBlock Text="Photo selection uses the Windows folder picker. Originals are copied unchanged."
-                           Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" Margin="0,20,0,0" />
+                <TextBlock Text="New reconstruction project" Style="{StaticResource PageTitle}" />
+                <TextBlock Text="A guided, local-only workflow from capture to reconstruction." Style="{StaticResource PageSubtitle}" />
             </StackPanel>
-        </Border>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Back" Command="{Binding BackCommand}" />
-            <Button Content="Continue" Background="{StaticResource AccentBrush}" Command="{Binding NextCommand}" />
-        </StackPanel>
+            <Border Style="{StaticResource InfoBadge}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,0,0">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE72E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="{StaticResource AccentPrimary}" Margin="0,0,7,0" /><TextBlock Text="Nothing leaves this device" Foreground="{StaticResource StatusInfo}" FontSize="12" FontWeight="SemiBold" /></StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" MaxWidth="1180">
+            <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="5" Height="2" Background="{StaticResource BorderSubtle}" Margin="32,17,32,0" VerticalAlignment="Top" />
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center"><Border Style="{StaticResource WizardStep1}"><TextBlock Text="1" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Project type" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,7,0,0" /></StackPanel>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center"><Border Style="{StaticResource WizardStep2}"><TextBlock Text="2" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Details" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,7,0,0" /></StackPanel>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center"><Border Style="{StaticResource WizardStep3}"><TextBlock Text="3" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Photos" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,7,0,0" /></StackPanel>
+            <StackPanel Grid.Column="3" HorizontalAlignment="Center"><Border Style="{StaticResource WizardStep4}"><TextBlock Text="4" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Photo review" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,7,0,0" /></StackPanel>
+            <StackPanel Grid.Column="4" HorizontalAlignment="Center"><Border Style="{StaticResource WizardStep5}"><TextBlock Text="5" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Preset &amp; create" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,7,0,0" /></StackPanel>
+        </Grid>
+
+        <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Border Style="{StaticResource Card}" Padding="28" MaxWidth="1040" Margin="0,4">
+                <Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="22" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="{Binding StepLabel}" Style="{StaticResource Eyebrow}" Foreground="{StaticResource AccentPrimary}" />
+                        <TextBlock Text="{Binding CurrentStepTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding CurrentStepDescription}" Style="{StaticResource BodySecondary}" Margin="0,6,0,0" />
+                    </StackPanel>
+
+                    <Grid Grid.Row="2">
+                        <Grid.Style><Style TargetType="Grid"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.ProjectType}"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+                        <ListBox ItemsSource="{Binding ProjectTypeOptions}" SelectedValue="{Binding ProjectType}" SelectedValuePath="Id" AutomationProperties.Name="Project type">
+                            <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem" BasedOn="{StaticResource SelectableCardItem}"><Setter Property="Width" Value="294" /><Setter Property="MinHeight" Value="116" /></Style></ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate><DataTemplate><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="42" /><ColumnDefinition /></Grid.ColumnDefinitions><Border Width="34" Height="34" CornerRadius="8" Background="{StaticResource SurfaceInteractive}" VerticalAlignment="Top"><TextBlock Text="{Binding Icon}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="{StaticResource AccentPrimary}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><StackPanel Grid.Column="1"><TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="15" /><TextBlock Text="{Binding Description}" Foreground="{StaticResource TextSecondary}" FontSize="12" TextWrapping="Wrap" Margin="0,5,0,0" LineHeight="18" /></StackPanel></Grid></DataTemplate></ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                    <Grid Grid.Row="2" MaxWidth="760" HorizontalAlignment="Left">
+                        <Grid.Style><Style TargetType="Grid"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.Details}"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="18" /><RowDefinition Height="Auto" /><RowDefinition Height="18" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                        <StackPanel><Label Content="Project name" Target="{Binding ElementName=ProjectNameBox}" /><TextBox x:Name="ProjectNameBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Project name" /><TextBlock Text="Use a clear name such as ‘Ground floor studio’." Foreground="{StaticResource TextMuted}" FontSize="11" Margin="2,6,0,0" /></StackPanel>
+                        <StackPanel Grid.Row="2"><Label Content="Notes (optional)" Target="{Binding ElementName=NotesBox}" /><TextBox x:Name="NotesBox" Text="{Binding Notes}" Height="76" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" AutomationProperties.Name="Project notes" /></StackPanel>
+                        <StackPanel Grid.Row="4"><Label Content="Project directory" /><Border Style="{StaticResource InsetCard}" Padding="12"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="30" /><ColumnDefinition /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions><TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="{StaticResource AccentPrimary}" FontSize="16" VerticalAlignment="Center" /><TextBlock Grid.Column="1" Text="{Binding ProjectDirectory, TargetNullValue=Default SpatialForgeProjects folder}" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{StaticResource TextSecondary}" /><Button Grid.Column="2" Content="Browse…" Command="{Binding ChooseProjectDirectoryCommand}" Style="{StaticResource SecondaryButton}" Margin="12,0,0,0" /></Grid></Border></StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.Style><Style TargetType="Grid"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.PhotoImport}"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+                        <Border BorderBrush="{StaticResource BorderStrong}" BorderThickness="1" CornerRadius="12" Background="{StaticResource SidebarBackground}" Padding="36" MinHeight="260"><StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="520"><Border Width="64" Height="64" CornerRadius="18" Background="{StaticResource AccentSoft}"><TextBlock Text="&#xE8B5;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="{StaticResource AccentPrimary}" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Choose your transferred photographs" FontSize="19" FontWeight="SemiBold" Margin="0,18,0,0" /><TextBlock Text="JPEG, PNG and TIFF images are supported. Originals are copied unchanged; analysis runs on local working copies." Style="{StaticResource BodySecondary}" TextAlignment="Center" Margin="0,7,0,18" /><Button Content="Select photo folder" Command="{Binding ImportPhotosCommand}" Style="{StaticResource PrimaryButton}" /><TextBlock Text="Aim for 70–80% overlap and a consistent camera lens." Foreground="{StaticResource TextMuted}" FontSize="11" Margin="0,13,0,0" /></StackPanel></Border>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.Style><Style TargetType="Grid"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.QualityReview}"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="1.2*" /><ColumnDefinition Width="18" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource InsetCard}" Padding="24"><StackPanel><TextBlock Text="PHOTO SET" Style="{StaticResource Eyebrow}" /><TextBlock Text="{Binding ImportedImageCount, StringFormat={}{0} photos analysed}" FontSize="26" FontWeight="SemiBold" Margin="0,8,0,0" /><TextBlock Text="Open the detailed review to inspect blur, exposure, feature density, resolution and near-duplicate warnings." Style="{StaticResource BodySecondary}" Margin="0,8,0,18" /><Button Content="Review quality warnings" Command="{Binding ReviewImagesCommand}" Style="{StaticResource SecondaryButton}" HorizontalAlignment="Left" /></StackPanel></Border>
+                        <Border Grid.Column="2" Style="{StaticResource SuccessBadge}" CornerRadius="12" Padding="22"><StackPanel><TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="{StaticResource StatusSuccess}" FontSize="22" /><TextBlock Text="Originals protected" Foreground="{StaticResource StatusSuccess}" FontWeight="SemiBold" FontSize="16" Margin="0,12,0,0" /><TextBlock Text="SpatialForge never edits or automatically deletes imported originals." Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,6,0,0" /></StackPanel></Border>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.Style><Style TargetType="Grid"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding Step}" Value="{x:Static vm:WizardStep.ProcessingPreset}"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="16" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                        <ListBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" AutomationProperties.Name="Processing preset">
+                            <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem" BasedOn="{StaticResource SelectableCardItem}"><Setter Property="Width" Value="280" /><Setter Property="MinHeight" Value="136" /></Style></ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate><DataTemplate><StackPanel><Grid><TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" /><Border Padding="7,2" HorizontalAlignment="Right"><Border.Style><Style TargetType="Border" BasedOn="{StaticResource InfoBadge}"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding PresetType}" Value="balanced_room"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="RECOMMENDED" Foreground="{StaticResource AccentPrimary}" FontSize="9" FontWeight="Bold" /></Border></Grid><TextBlock Text="{Binding ProfileSummary}" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,7,0,0" TextWrapping="Wrap" /><Separator Margin="0,11,0,9" /><TextBlock Text="{Binding HardwareSummary}" Foreground="{StaticResource TextSecondary}" FontSize="11" /></StackPanel></DataTemplate></ListBox.ItemTemplate>
+                        </ListBox>
+                        <Border Grid.Row="2" Style="{StaticResource InsetCard}" Padding="16"><Grid><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions><StackPanel><TextBlock Text="PROJECT" Style="{StaticResource Eyebrow}" /><TextBlock Text="{Binding Name, TargetNullValue=Unnamed project}" FontWeight="SemiBold" Margin="0,5,0,0" /></StackPanel><StackPanel Grid.Column="1"><TextBlock Text="PHOTOS" Style="{StaticResource Eyebrow}" /><TextBlock Text="{Binding ImportedImageCount, StringFormat={}{0} included}" FontWeight="SemiBold" Margin="0,5,0,0" /></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="PROCESSING" Style="{StaticResource Eyebrow}" /><TextBlock Text="100% local · no uploads" Foreground="{StaticResource StatusSuccess}" FontWeight="SemiBold" Margin="0,5,0,0" /></StackPanel></Grid></Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+
+        <Grid Grid.Row="6" MaxWidth="1040">
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource StatusError}" TextWrapping="Wrap" VerticalAlignment="Center" MaxWidth="560" HorizontalAlignment="Left" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button Content="Back" Command="{Binding BackCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" /><Button Content="{Binding NextButtonLabel}" Command="{Binding NextCommand}" Style="{StaticResource PrimaryButton}" MinWidth="150" /></StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -250,9 +250,47 @@ public sealed class ViewModelTests
         ShellViewModel shell = new(navigation);
         shell.Initialize();
         Assert.Same(dashboard, shell.CurrentViewModel);
+        Assert.True(shell.IsDashboardActive);
+        Assert.Equal("Dashboard", shell.CurrentPageName);
 
         navigation.Navigate(AppPage.Error);
         Assert.Same(error, shell.CurrentViewModel);
+        Assert.False(shell.IsDashboardActive);
+        Assert.Equal("Attention required", shell.CurrentPageName);
+    }
+
+    [Fact]
+    public void WizardExposesReadableProjectCardsAndContextualActions()
+    {
+        FakeApiClient api = new();
+        SettingsViewModel settings = new();
+        NavigationService navigation = new(_ => settings);
+        NewProjectViewModel viewModel = new(
+            api,
+            new FakePhotoPicker([]),
+            navigation,
+            new ProcessingViewModel(api, new FakeConfirmationService()),
+            new ImageReviewViewModel(api),
+            settings);
+
+        Assert.Equal(5, viewModel.ProjectTypeOptions.Count);
+        Assert.Contains(viewModel.ProjectTypeOptions, option => option.Name == "Single room");
+        Assert.Equal("Choose the spatial scope", viewModel.CurrentStepTitle);
+        Assert.Equal("Continue", viewModel.NextButtonLabel);
+    }
+
+    [Fact]
+    public void PresentationContractsNeverExposeBlankHardwareOrEngineValues()
+    {
+        HardwareProfile hardware = new("", "", 8, 16384, 8192, null, null, false, "", null);
+        DependencyStatus dependency = new("colmap", false, null);
+
+        Assert.Equal("Not detected", hardware.DisplayOperatingSystem);
+        Assert.Equal("Not detected", hardware.DisplayGpuModel);
+        Assert.Equal("Unavailable", hardware.DisplayGpuMemory);
+        Assert.Equal("COLMAP", dependency.DisplayName);
+        Assert.Equal("Not installed", dependency.AvailabilityLabel);
+        Assert.Equal("Version unavailable", dependency.VersionLabel);
     }
 
     [Fact]

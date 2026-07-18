@@ -42,10 +42,22 @@ public sealed class ImageReviewViewModel : ViewModelBase
         {
             if (SetProperty(ref _filter, value))
             {
+                OnPropertyChanged(nameof(IsAllFilter));
+                OnPropertyChanged(nameof(IsGoodFilter));
+                OnPropertyChanged(nameof(IsReviewFilter));
+                OnPropertyChanged(nameof(IsExcludedFilter));
                 ApplyFilter();
             }
         }
     }
+    public bool IsAllFilter => Filter == ImageReviewFilter.All;
+    public bool IsGoodFilter => Filter == ImageReviewFilter.Good;
+    public bool IsReviewFilter => Filter == ImageReviewFilter.Review;
+    public bool IsExcludedFilter => Filter == ImageReviewFilter.Excluded;
+    public int TotalCount => _allImages.Count;
+    public int GoodCount => _allImages.Count(image => image.QualityStatus == "good");
+    public int ReviewCount => _allImages.Count(image => image.IsIncluded && image.QualityStatus != "good");
+    public int ExcludedCount => _allImages.Count(image => !image.IsIncluded);
 
     public ImageReviewItemViewModel? SelectedImage
     {
@@ -71,6 +83,10 @@ public sealed class ImageReviewViewModel : ViewModelBase
             _allImages.Add(item);
         }
         ApplyFilter();
+        OnPropertyChanged(nameof(TotalCount));
+        OnPropertyChanged(nameof(GoodCount));
+        OnPropertyChanged(nameof(ReviewCount));
+        OnPropertyChanged(nameof(ExcludedCount));
     });
 
     public void ApplyFilter()
@@ -88,6 +104,9 @@ public sealed class ImageReviewViewModel : ViewModelBase
         {
             VisibleImages.Add(image);
         }
+        OnPropertyChanged(nameof(GoodCount));
+        OnPropertyChanged(nameof(ReviewCount));
+        OnPropertyChanged(nameof(ExcludedCount));
     }
 }
 
