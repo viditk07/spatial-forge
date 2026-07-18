@@ -2,21 +2,20 @@
 
 ## Objective
 
-Complete Phase 5 release validation for the local-only Windows package.
+Complete the production-grade SpatialForge desktop visual refresh without changing local processing behavior.
 
 ## Acceptance criteria
 
-- Windows CI creates the frozen backend, self-contained WPF publish, hashes, and installer.
-- The installer succeeds on a clean Windows 11 machine and uninstalls cleanly.
-- WPF launches, enforces the first-run privacy statement, starts only an authenticated
-  loopback backend, and renders the offline WebView2 viewer.
-- A representative real COLMAP fixture produces and verifies sparse output; dense and texture
-  capability is reported honestly for the tested hardware/engine build.
-- Third-party binary redistribution terms are approved before any engine is bundled.
+- Shared semantic tokens and explicit dark templates cover all WPF controls.
+- Shell, dashboard, wizard, review, processing, hardware, model, settings, and dialogs are consistent.
+- Existing routes, bindings, commands, backend calls, WebView protocol, and project data remain intact.
+- Theme, contrast, navigation, wizard, and missing-value regression tests pass.
+- WPF builds and the complete repository validation suite passes.
+- Windows screenshots, DPI checks, packaged launch, and installer are validated in Windows CI/hardware.
 
 ## Files being modified
 
-Packaging scripts, CI workflows, release/licence documentation, and Windows smoke tests.
+Desktop resources, views, presentation view models/contracts, UI tests, version metadata, and UI documentation.
 
 ## Validation commands
 
@@ -25,14 +24,12 @@ Latest host validation completed on 2026-07-17 with `.venv/bin/python scripts/va
 
 ## Risks and blockers
 
-- The current Linux host cannot execute WPF/WebView2 or compile/run the Inno installer.
-- COLMAP is not installed, and no redistribution-approved Windows engine binary is available.
-- Texture production depends on an external compatible engine and is not guaranteed by COLMAP
-  alone in the current package.
+- This Linux host cannot execute WPF/WebView2, capture Windows screenshots, or run Inno Setup.
+- Windows DPI, keyboard traversal, packaged launch, and visual screenshot review remain external gates.
+- Existing real-engine and redistribution blockers remain unrelated to the visual refresh.
 
 ## Status
 
-In progress. All host-available Phase 4 gates passed on 2026-07-17. Fresh backend wheel,
-host-native frozen backend, authenticated local health smoke, and self-contained `win-x64`
-publish artifacts were produced. Windows installer/runtime validation and representative
-real-engine reconstruction remain the release gates.
+Host-complete. The design system and all major desktop screens are refreshed, documented, and pass
+the aggregate validation suite. Windows runtime, screenshot/DPI, keyboard, WebView2 composition, and
+0.2.0 installer review remain external release gates.

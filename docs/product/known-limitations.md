@@ -1,6 +1,9 @@
 # Known Limitations
 
 - Final Windows runtime, WebView2, and installer validation must run in Windows CI/VM.
+- The 0.2.0 visual refresh is XAML-compiled and programmatically contrast-tested, but screenshot,
+  keyboard traversal, 100–200% DPI, dark title-bar, and packaged-theme inspection still require
+  the Windows validation matrix; this Linux host cannot render WPF.
 - COLMAP is discovered from the configured path or `PATH`; it is not redistributed yet.
 - Dense stereo depends on the installed COLMAP build and generally requires NVIDIA CUDA.
 - Intel Arc is experimental and is not advertised as a supported dense path.

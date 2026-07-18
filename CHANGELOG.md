@@ -4,6 +4,36 @@ All notable changes follow semantic versioning.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-18
+
+### Added
+
+- A centralized dark-first WPF design system with semantic color, typography, spacing, radius,
+  focus, status, surface, and motion tokens.
+- Explicit accessible dark templates for buttons, text fields, dropdown popups, checks, lists,
+  progress, menus, tooltips, data grids, and their hover, selected, focused, and disabled states.
+- A premium spatial shell with cube/point brand mark, grouped icon navigation, obvious active state,
+  local-processing privacy identity, and local service status strip.
+- Redesigned dashboard, five-step project wizard, photo inspector, reconstruction timeline, hardware
+  capability dashboard, model workstation, settings, empty/error states, and themed dialogs.
+- Programmatic WCAG contrast, resource completeness, major-view theming, navigation state, readable
+  wizard content, and missing hardware-value tests.
+- UI refresh audit, implementation plan, design-system reference, and component guide.
+
+### Changed
+
+- Machine-facing project, stage, preset, engine, status, and missing-value text now has readable
+  presentation properties without changing serialized API contracts.
+- First-run privacy and destructive confirmations now use the SpatialForge dark visual system.
+
+### Fixed
+
+- Native light dropdown and input surfaces no longer leak into the dark application shell.
+- Hardware and engine fields now render explicit fallbacks instead of blank or invisible values.
+- The Hardware page now refreshes its local capability data when opened.
+
+## [0.1.0] - 2026-07-17
+
 ### Added
 
 - Initial SpatialForge monorepo, architecture, governance, and validation conventions.

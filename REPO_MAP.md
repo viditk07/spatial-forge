@@ -2,6 +2,9 @@
 
 - `apps/backend`: local FastAPI API, CLI, persistence, image analysis, jobs, exports.
 - `apps/desktop`: WPF solution, MVVM screens, backend lifecycle and API client.
+  Shared semantic tokens and templates live in `src/SpatialForge.Desktop/Resources`; the themed
+  confirmation/privacy dialog is `SpatialForgeDialog`; presentation/resource tests live beside
+  MVVM tests under `tests/SpatialForge.Desktop.Core.Tests`.
 - `apps/viewer`: bundled Three.js/WebView2 application and viewer tests.
 - `packages/test-data`: small redistributable fixtures and fixture licence metadata
   (currently `models/tetrahedron.ply`).
@@ -34,3 +37,6 @@ The reconstruction pipeline checkpoints image preparation, feature extraction, m
 mapping, sparse PLY conversion, privacy-safe camera-pose export, undistortion, depth maps, dense
 fusion, and Poisson meshing. CPU presets skip only the four dense stages and retain a previewable
 sparse point cloud plus registered camera frustums.
+
+The desktop UI audit and plan live under `docs/product`; the design-system and reusable-component
+references live under `docs/architecture`.

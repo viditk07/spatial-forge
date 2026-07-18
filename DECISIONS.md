@@ -47,3 +47,11 @@ mesh loading, format conversion, crop, validation, and GLB export without a heav
 GPU runtime. Fast Simplification is isolated behind the model service for quadric reduction.
 The original reconstruction output is never overwritten; every crop or simplify action
 creates a derived model record.
+
+## ADR-009: Native WPF visual system without a third-party theme framework
+
+Status: accepted. SpatialForge uses semantic WPF resource dictionaries and explicit control
+templates instead of adding a broad UI framework. This avoids new runtime/licensing/packaging risk,
+keeps keyboard and automation behavior under project control, and supports a coherent dark-first
+system. Windows-installed Segoe UI and Segoe Fluent/MDL2 glyph fonts are used with fallbacks; no
+font, icon, style, or other visual asset is downloaded at runtime.

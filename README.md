@@ -9,6 +9,10 @@ The repository is under active MVP development. See [PROJECT_STATUS.md](PROJECT_
 for verified capabilities and limitations, and [ARCHITECTURE.md](ARCHITECTURE.md) for
 the system design.
 
+The refreshed desktop visual system is documented in
+[UI_DESIGN_SYSTEM.md](docs/architecture/UI_DESIGN_SYSTEM.md), with reusable composition guidance
+in [UI_COMPONENTS.md](docs/architecture/UI_COMPONENTS.md).
+
 ## Workspace layout
 
 - `apps/backend` - Python FastAPI backend, CLI, SQLite models, migrations, image analysis,
