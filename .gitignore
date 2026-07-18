@@ -64,6 +64,9 @@ release/
 *.nupkg
 *.whl
 *.tar.gz
+installer/
+third-party-notices/
+publish-sha256.json
 
 # External engine binaries are not committed until redistribution is approved.
 engines/**/bin/
