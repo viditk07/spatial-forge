@@ -18,10 +18,10 @@
 
 ## Latest validation
 
-On 2026-07-17, `.venv/bin/python scripts/validate.py` completed successfully:
+On 2026-07-18, `.venv/bin/python scripts/validate.py` completed successfully:
 
 - Ruff format/check passed for 47 checked Python files; strict mypy passed for 27 source files.
-- Pytest passed 52 tests in 13.67 seconds. Coverage includes migrations, authenticated loopback
+- Pytest passed 52 tests in 19.37 seconds. Coverage includes migrations, authenticated loopback
   access, path/command safety, selected project/export directories, immutable imports, EXIF GPS
   and capture devices, OpenCV quality analysis, connected duplicate groups, hardware history,
   CPU/CUDA preflight, durable orchestration, cancellation/retry/recovery, sparse PLY fallback,
@@ -50,8 +50,10 @@ offline multi-layer viewer assets. The bundled viewer was inspected for model-la
 camera-pose loading, registered-camera display, and advanced export protocols.
 
 The fail-closed notice collector resolved 45 production runtime dependency groups and emitted
-57 manifest/licence/notice files on this host. Windows packaging additionally requires the exact
-Python and .NET runtime notices before it can build the installer.
+57 manifest/licence/notice files on this host. Windows packaging now restores NuGet packages before
+notice collection, fails immediately on native-command errors, and emits frozen-backend stdout/stderr
+when the health smoke fails. Windows packaging additionally requires the exact Python and .NET
+runtime notices before it can build the installer.
 
 No claim is made that the installer or WPF/WebView2 runtime passed Windows execution. COLMAP,
 OpenMVS, and Blender remain unbundled pending exact-binary licence approval. Real reconstruction,

@@ -5,14 +5,20 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+    $PSNativeCommandUseErrorActionPreference = $true
+}
 $root = Split-Path -Parent $PSScriptRoot
 $artifacts = Join-Path $root "artifacts"
 $publish = Join-Path $artifacts "publish"
 $backendDist = Join-Path $artifacts "backend"
 $notices = Join-Path $artifacts "third-party-notices"
+$backendSmokeOut = Join-Path $artifacts "backend-smoke.stdout.log"
+$backendSmokeErr = Join-Path $artifacts "backend-smoke.stderr.log"
 
 New-Item -ItemType Directory -Force $artifacts | Out-Null
 Remove-Item -Recurse -Force $publish, $backendDist, $notices -ErrorAction SilentlyContinue
+Remove-Item -Force $backendSmokeOut, $backendSmokeErr -ErrorAction SilentlyContinue
 
 Push-Location (Join-Path $root "apps/viewer")
 try {
@@ -21,8 +27,15 @@ try {
 } finally { Pop-Location }
 
 python -m pip install -e "$root/apps/backend[packaging,vision]"
+dotnet restore (Join-Path $root "apps/desktop/SpatialForge.sln")
+$nugetRoot = if ($env:NUGET_PACKAGES) {
+    $env:NUGET_PACKAGES
+} else {
+    Join-Path $HOME ".nuget/packages"
+}
 python (Join-Path $root "scripts/collect_release_notices.py") `
-    --output (Join-Path $artifacts "third-party-notices")
+    --output (Join-Path $artifacts "third-party-notices") `
+    --nuget-root $nugetRoot
 $pythonRoot = (& python -c "import sys; print(sys.base_prefix)").Trim()
 $pythonLicense = @(
     (Join-Path $pythonRoot "LICENSE.txt"),
@@ -61,10 +74,13 @@ $env:SPATIALFORGE_PORT = "18765"
 $env:SPATIALFORGE_LAUNCH_TOKEN = "packaging-smoke-token"
 $env:SPATIALFORGE_DATA_DIR = Join-Path $artifacts "smoke-data"
 $env:SPATIALFORGE_PROJECTS_DIR = Join-Path $artifacts "smoke-projects"
-$process = Start-Process $backendExe -PassThru
+$process = Start-Process $backendExe -PassThru `
+    -RedirectStandardOutput $backendSmokeOut `
+    -RedirectStandardError $backendSmokeErr
 try {
     $healthy = $false
     for ($attempt = 0; $attempt -lt 40; $attempt++) {
+        if ($process.HasExited) { break }
         Start-Sleep -Milliseconds 250
         try {
             $health = Invoke-RestMethod -Uri "http://127.0.0.1:18765/api/v1/health" `
@@ -72,7 +88,20 @@ try {
             if ($health.local_only -eq $true) { $healthy = $true; break }
         } catch { }
     }
-    if (-not $healthy) { throw "Frozen backend health check failed." }
+    if (-not $healthy) {
+        if (Test-Path $backendSmokeOut) {
+            Write-Host "Frozen backend stdout:"
+            Get-Content $backendSmokeOut -Tail 120
+        }
+        if (Test-Path $backendSmokeErr) {
+            Write-Host "Frozen backend stderr:"
+            Get-Content $backendSmokeErr -Tail 120
+        }
+        if ($process.HasExited) {
+            throw "Frozen backend health check failed; process exited with code $($process.ExitCode)."
+        }
+        throw "Frozen backend health check failed."
+    }
 } finally {
     Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
 }

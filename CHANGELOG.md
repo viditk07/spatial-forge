@@ -51,3 +51,8 @@ All notable changes follow semantic versioning.
   partial-output cleanup, persisted total output size, and clearly labelled rough size estimates.
 - Verified registered-camera counts in resource snapshots and the Processing screen, kept distinct
   from the number of photographs merely included for reconstruction.
+
+### Fixed
+
+- Windows packaging now restores NuGet packages before release-notice collection, fails immediately
+  on native command errors, and prints frozen-backend smoke logs when the health check fails.
