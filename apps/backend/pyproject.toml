@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.27"]
+requires = ["hatchling==1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -7,12 +7,13 @@ name = "spatialforge-backend"
 version = "0.2.0"
 description = "Local-only SpatialForge application backend"
 requires-python = ">=3.12"
+license = "LicenseRef-SpatialForge-Source-Visible-1.0"
 dependencies = [
   "alembic==1.18.5",
   "fastapi==0.139.2",
   "fast-simplification==0.1.13",
   "httpx==0.28.1",
-  "pillow==11.3.0",
+  "pillow==12.3.0",
   "psutil==7.2.2",
   "pydantic==2.13.4",
   "pydantic-settings==2.14.2",
@@ -49,6 +50,7 @@ packages = ["src/spatialforge_backend"]
 [tool.hatch.build.targets.wheel.force-include]
 "migrations" = "spatialforge_backend/migrations"
 "alembic.ini" = "spatialforge_backend/alembic.ini"
+"../../LICENSE.txt" = "spatialforge_backend/LICENSE.txt"
 
 [tool.ruff]
 target-version = "py312"

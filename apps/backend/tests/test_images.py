@@ -172,3 +172,25 @@ def test_focus_score_ranks_sharp_fixture_above_blurred_fixture(
         item["original_filename"]: item["quality_metric"]["blur_score"] for item in analysed.json()
     }
     assert scores["sharp.jpg"] > scores["blurred.jpg"] * 2
+
+
+def test_import_and_analysis_handles_eighty_photos(client: TestClient, tmp_path: Path) -> None:
+    project = _create_project(client)
+    paths: list[str] = []
+    for index in range(80):
+        path = tmp_path / f"capture-{index:03}.jpg"
+        image = Image.new("RGB", (96, 96), ((index * 17) % 255, 80, 140))
+        ImageDraw.Draw(image).line((0, index % 96, 95, (index * 7) % 96), fill="white", width=2)
+        image.save(path, "JPEG", quality=80)
+        paths.append(str(path))
+
+    imported = client.post(
+        f"/api/v1/projects/{project['id']}/images/import",
+        json={"paths": paths},
+    )
+    assert imported.status_code == 201, imported.text
+    assert len(imported.json()) == 80
+
+    analysed = client.post(f"/api/v1/projects/{project['id']}/images/analyse")
+    assert analysed.status_code == 200, analysed.text
+    assert len(analysed.json()) == 80

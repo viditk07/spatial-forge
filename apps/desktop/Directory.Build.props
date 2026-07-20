@@ -10,5 +10,9 @@
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <UseSharedCompilation>false</UseSharedCompilation>
+    <Authors>Vidit Kasliwal</Authors>
+    <Company>SpatialForge</Company>
+    <Copyright>Copyright © 2026 Vidit Kasliwal. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/viditk07/spatial-forge</RepositoryUrl>
   </PropertyGroup>
 </Project>

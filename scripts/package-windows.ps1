@@ -1,7 +1,11 @@
 [CmdletBinding()]
 param(
     [string]$Configuration = "Release",
-    [switch]$SkipInstaller
+    [switch]$SkipInstaller,
+    [string]$SignToolPath = $env:SPATIALFORGE_SIGNTOOL_PATH,
+    [string]$SigningCertificateThumbprint = $env:SPATIALFORGE_SIGNING_CERTIFICATE_THUMBPRINT,
+    [string]$TimestampUrl = "http://timestamp.digicert.com",
+    [switch]$RequireSigning
 )
 
 $ErrorActionPreference = "Stop"
@@ -106,12 +110,47 @@ try {
     Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
 }
 
-Get-ChildItem $publish -Recurse -File | Get-FileHash -Algorithm SHA256 |
-    Select-Object Hash, Path | ConvertTo-Json | Set-Content `
+$hashManifest = Get-ChildItem $publish -Recurse -File | ForEach-Object {
+    [PSCustomObject]@{
+        Hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash
+        Path = [IO.Path]::GetRelativePath($publish, $_.FullName).Replace('\', '/')
+    }
+}
+$hashManifest | ConvertTo-Json | Set-Content `
     (Join-Path $artifacts "publish-sha256.json") -Encoding utf8
 
 if (-not $SkipInstaller) {
     $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
     if (-not (Test-Path $iscc)) { throw "Inno Setup 6 is required to build the installer." }
     & $iscc (Join-Path $root "packaging/windows/SpatialForge.iss")
+
+    $installerFiles = @(Get-ChildItem (Join-Path $artifacts "installer") `
+        -Filter "SpatialForge-*-win-x64.exe" -File)
+    if ($installerFiles.Count -ne 1) {
+        throw "Packaging must produce exactly one versioned Windows installer."
+    }
+    $installer = $installerFiles[0].FullName
+    $signingRequested = $SignToolPath -or $SigningCertificateThumbprint
+    if ($signingRequested) {
+        if (-not $SignToolPath -or -not (Test-Path $SignToolPath)) {
+            throw "A valid SPATIALFORGE_SIGNTOOL_PATH is required for Authenticode signing."
+        }
+        if ($SigningCertificateThumbprint -notmatch '^[0-9A-Fa-f]{40}$') {
+            throw "The signing certificate thumbprint must contain exactly 40 hexadecimal characters."
+        }
+        $signArguments = @(
+            "sign", "/sha1", $SigningCertificateThumbprint,
+            "/fd", "SHA256", "/td", "SHA256", "/tr", $TimestampUrl,
+            $installer
+        )
+        & $SignToolPath @signArguments
+    }
+
+    $signature = Get-AuthenticodeSignature $installer
+    if ($RequireSigning -and $signature.Status -ne "Valid") {
+        throw "A valid Authenticode signature is required, but installer status is $($signature.Status)."
+    }
+    if ($signature.Status -ne "Valid") {
+        Write-Warning "Installer is unsigned. Publish only as an explicitly labelled beta artifact."
+    }
 }

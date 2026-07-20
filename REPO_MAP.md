@@ -14,11 +14,14 @@
   (currently empty). The engine adapter *code* lives in
   `apps/backend/src/spatialforge_backend/engines`.
 - `docs`: architecture, product, development, testing, deployment and user guides.
+- `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`: public reporting and participation
+  boundaries for the source-visible pre-release project.
 - `scripts`: cross-component validation, release-notice collection, and packaging entry points.
 - `samples`: reserved for non-user sample configurations and tiny outputs (currently empty).
 - `tools`: reserved for development-only utilities; proprietary binaries are excluded (currently empty).
 - `packaging`: reproducible Windows packaging definitions.
 - `.github/workflows`: CI and optional Windows packaging/engine jobs.
+- `.github/CODEOWNERS`: default ownership for security-sensitive and release-critical paths.
 
 The mocked-engine whole-workflow test lives in
 `apps/backend/tests/test_job_orchestration.py`; the top-level `tests/` directory is reserved for

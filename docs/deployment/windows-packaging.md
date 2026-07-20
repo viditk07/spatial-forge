@@ -14,6 +14,13 @@ licence and third-party notices used for the self-contained publish.
 Native command failures are treated as packaging failures. If the frozen-backend health smoke fails,
 the script prints the captured backend stdout and stderr before exiting.
 
+Release checksums use paths relative to the publish root so the manifest is portable and does not
+disclose build-runner directories. Beta artifacts may be produced unsigned, but they must be labelled
+as such. A production release must provide `SPATIALFORGE_SIGNTOOL_PATH` and
+`SPATIALFORGE_SIGNING_CERTIFICATE_THUMBPRINT`, invoke the script with `-RequireSigning`, and pass the
+post-build Authenticode validation. Signing is a release-time network operation when timestamping is
+enabled; it is not part of normal application operation.
+
 The release job must inspect PyInstaller warnings, scan outputs, start the installed app,
 verify the privacy prompt, create a synthetic project, open the embedded viewer, and
 uninstall cleanly. COLMAP, OpenMVS, and Blender binaries are not included until the exact

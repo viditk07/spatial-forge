@@ -1,5 +1,41 @@
-SpatialForge application source is provided under the terms selected by its copyright
-holder. Third-party components retain their respective licences. See
-THIRD_PARTY_NOTICES.md and DEPENDENCY_LICENSES.md in the installation directory.
+SpatialForge Source-Visible Evaluation Licence 1.0
 
-No warranty is made that generated geometry or measurements are survey-grade.
+Copyright (c) 2026 Vidit Kasliwal. All rights reserved.
+
+1. Official binaries
+
+You may download, install, and run unmodified official SpatialForge binaries solely for
+personal evaluation and testing. This permission is non-exclusive, non-transferable, and
+revocable for future versions. It does not permit commercial, production, surveying,
+structural, safety-critical, or legal use.
+
+2. Source code
+
+The source code is made publicly visible for inspection, security review, and evaluation.
+Except for the limited rights necessarily provided by GitHub's Terms of Service, no licence
+is granted to copy, modify, distribute, sublicense, sell, host, deploy, or create derivative
+works from the source code.
+
+3. Restrictions
+
+You may not remove copyright or attribution notices, represent SpatialForge as your own work,
+redistribute application binaries, or use the SpatialForge name or marks to endorse another
+product without prior written permission from the copyright holder.
+
+4. Contributions
+
+No licence to submitted contributions is implied by this document. External contributions are
+not accepted until contribution terms are published separately.
+
+5. Third-party software
+
+Third-party components remain governed by their own licences. Their notices are provided in
+THIRD_PARTY_NOTICES.md, DEPENDENCY_LICENSES.md, and the generated installer notice bundle.
+
+6. Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, OR RELIABILITY.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY
+ARISING FROM THE SOFTWARE OR ITS USE. GENERATED GEOMETRY AND MEASUREMENTS ARE APPROXIMATE AND
+ARE NOT SURVEY-GRADE.

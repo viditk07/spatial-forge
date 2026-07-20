@@ -26,5 +26,17 @@
       <Link>UiFixtures\MainWindow.xaml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\src\SpatialForge.Desktop\Views\ModelReviewView.xaml.cs">
+      <Link>UiFixtures\ModelReviewView.xaml.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\src\SpatialForge.Desktop\App.xaml.cs">
+      <Link>UiFixtures\App.xaml.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\viewer\index.html">
+      <Link>UiFixtures\ViewerIndex.html</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

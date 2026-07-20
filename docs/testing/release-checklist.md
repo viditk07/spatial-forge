@@ -11,5 +11,8 @@
 - Confirm normal use makes no external network connection.
 - Confirm diagnostic reports contain no image/model/GPS/source-path content.
 - Review third-party versions, notices, redistribution terms, and SHA-256 manifest.
+- Confirm the checksum manifest contains relative paths only.
+- For production distribution, run packaging with `-RequireSigning` and verify a valid timestamped
+  Authenticode signature. Label any permitted unsigned beta artifact explicitly.
 - Record real COLMAP version/hardware if reconstruction claims are included.
 - Update changelog, known limitations, version fields, and project status.

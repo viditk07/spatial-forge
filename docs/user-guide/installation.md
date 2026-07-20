@@ -4,7 +4,8 @@ SpatialForge targets 64-bit Windows 11. Use 16 GB RAM as the practical minimum,
 32 GB for Balanced or High Quality work, an SSD, and enough free space for roughly
 18 times the imported JPEG size plus a 2 GiB safety reserve.
 
-1. Run the signed `SpatialForge-<version>-win-x64.exe` installer.
+1. Run `SpatialForge-<version>-win-x64.exe`. Beta installers are currently unsigned and may
+   display a Windows SmartScreen warning; verify the published SHA-256 checksum before running.
 2. Keep the default per-user installation folder unless local policy requires another.
 3. On first launch, read and accept the local-processing privacy notice.
 4. Open Hardware to review CPU, RAM, GPU, CUDA, and dependency detection.

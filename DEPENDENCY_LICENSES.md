@@ -1,6 +1,6 @@
 # Dependency and Licence Inventory
 
-Versions below are the locked or installed versions validated on 2026-07-17. Dependencies are
+Versions below are the locked or installed versions validated on 2026-07-19. Dependencies are
 used unmodified. Permissive licences allow commercial redistribution when their copyright and
 licence notices are retained; this inventory is engineering documentation, not legal advice.
 
@@ -20,7 +20,7 @@ licence notices are retained; this inventory is engineering documentation, not l
 | structlog | 25.5.0 | MIT OR Apache-2.0 | structlog.org | Bundled logging package; retain selected notice |
 | Typer | 0.27.0 | MIT | github.com/fastapi/typer | Bundled CLI package; retain notice |
 | python-multipart | 0.0.32 | Apache-2.0 | github.com/Kludex/python-multipart | Bundled API parser; include licence/NOTICE if present |
-| Pillow | 11.3.0 | MIT-CMU | python-pillow.github.io | Bundled image codec package; retain notice |
+| Pillow | 12.3.0 | MIT-CMU | python-pillow.github.io | Bundled image codec package; retain notice |
 | OpenCV headless | 4.13.0.92 | Apache-2.0 | github.com/opencv/opencv-python | Bundled native wheel; include licence/NOTICE |
 | Trimesh | 4.12.2 | MIT | github.com/mikedh/trimesh | Bundled model operations; retain notice |
 | Fast Simplification | 0.1.13 | MIT | github.com/pyvista/fast-simplification | Bundled native wheel; retain notice |

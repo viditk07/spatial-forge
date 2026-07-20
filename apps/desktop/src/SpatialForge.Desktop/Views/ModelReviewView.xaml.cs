@@ -43,7 +43,10 @@ public partial class ModelReviewView : UserControl
         core.WebMessageReceived += OnWebMessageReceived;
         core.NavigationStarting += (_, args) =>
         {
-            if (!args.Uri.StartsWith("https://spatialforge.viewer/", StringComparison.Ordinal))
+            if (!Uri.TryCreate(args.Uri, UriKind.Absolute, out Uri? uri)
+                || !string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.Ordinal)
+                || !string.Equals(uri.Host, "spatialforge.viewer", StringComparison.OrdinalIgnoreCase)
+                || !uri.IsDefaultPort)
             {
                 args.Cancel = true;
             }
@@ -90,10 +93,13 @@ public partial class ModelReviewView : UserControl
             }
 
             string host = $"model{index}.spatialforge";
+            // Three.js loaders use Fetch to read these isolated virtual hosts. Allow is required
+            // for that CORS-checked request; the viewer validates the exact modelN host pattern,
+            // CSP blocks real network origins, and WebView navigation remains viewer-origin only.
             Viewer.CoreWebView2.SetVirtualHostNameToFolderMapping(
                 host,
                 directory,
-                CoreWebView2HostResourceAccessKind.DenyCors);
+                CoreWebView2HostResourceAccessKind.Allow);
             string url = $"https://{host}/{Uri.EscapeDataString(Path.GetFileName(model.FilePath))}";
             Viewer.CoreWebView2.PostWebMessageAsJson(JsonSerializer.Serialize(new
             {

@@ -8,30 +8,35 @@ on:
 permissions:
   contents: read
 
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  TESTINGPLATFORM_TELEMETRY_OPTOUT: "1"
+
 jobs:
   package:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: apps/backend/pyproject.toml
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24"
           cache: npm
           cache-dependency-path: apps/viewer/package-lock.json
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: "10.0.x"
       - name: Install Inno Setup
-        run: choco install innosetup --no-progress --yes
+        run: choco install innosetup --version=6.7.1 --no-progress --yes
       - name: Build, smoke-test, and package
         shell: pwsh
         run: ./scripts/package-windows.ps1
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: SpatialForge-win-x64
           path: |

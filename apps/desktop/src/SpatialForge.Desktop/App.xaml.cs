@@ -72,7 +72,10 @@ public partial class App : Application
 
         ServiceCollection services = new();
         services.AddSingleton(backendOptions);
-        services.AddSingleton(new HttpClient { Timeout = TimeSpan.FromSeconds(30) });
+        // Import and local quality analysis can legitimately exceed 30 seconds for a large
+        // smartphone capture. Operation cancellation is controlled by explicit cancellation
+        // tokens; a global HttpClient timeout would abandon an active backend transaction.
+        services.AddSingleton(new HttpClient { Timeout = Timeout.InfiniteTimeSpan });
         services.AddSingleton<BackendProcessService>();
         services.AddSingleton<IBackendLifecycle>(provider =>
             provider.GetRequiredService<BackendProcessService>());

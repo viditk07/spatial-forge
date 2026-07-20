@@ -1,6 +1,9 @@
 # Known Limitations
 
 - Final Windows runtime, WebView2, and installer validation must run in Windows CI/VM.
+- The desktop no longer abandons imports or quality analysis after 30 seconds, and an automated
+  80-image regression fixture passes. Representative 80-photo, full-resolution validation on the
+  affected Windows machine remains required before the resource-related crash is considered closed.
 - The 0.2.0 visual refresh is XAML-compiled and programmatically contrast-tested, but screenshot,
   keyboard traversal, 100–200% DPI, dark title-bar, and packaged-theme inspection still require
   the Windows validation matrix; this Linux host cannot render WPF.

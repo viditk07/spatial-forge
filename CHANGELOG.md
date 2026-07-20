@@ -4,6 +4,29 @@ All notable changes follow semantic versioning.
 
 ## [Unreleased]
 
+### Added
+
+- Explicit source-visible evaluation licence, security policy, contribution policy, community
+  conduct guidance, and repository code ownership.
+- Public-release regression coverage for an 80-image import/analysis set, unbounded local-operation
+  HTTP duration, WebView virtual-host policy, and disabled backend access logging.
+- Optional Authenticode signing with fail-closed `-RequireSigning` verification.
+
+### Changed
+
+- Upgraded Pillow to 12.3.0 after the public-release dependency audit and embedded the application
+  licence in the backend wheel.
+- Pinned GitHub Actions to immutable commit SHAs and Windows packaging to Inno Setup 6.7.1.
+- Release checksum manifests now use portable relative paths instead of CI runner paths.
+
+### Fixed
+
+- Local image import and quality analysis are no longer abandoned by a global 30-second HTTP
+  timeout; Uvicorn access logging no longer risks filling the desktop's redirected output pipe.
+- Three.js model fetches now use a CSP-approved, CORS-capable local virtual-host mapping while
+  top-level WebView navigation validates the exact trusted origin.
+- Installation guidance no longer describes unsigned beta installers as signed.
+
 ## [0.2.0] - 2026-07-18
 
 ### Added

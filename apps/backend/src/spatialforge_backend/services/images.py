@@ -8,10 +8,11 @@ import math
 import shutil
 import uuid
 from collections import defaultdict
+from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
 from statistics import median
-from typing import Any
+from typing import Any, cast
 
 from PIL import Image, ImageFilter, ImageStat, UnidentifiedImageError
 from sqlalchemy import select
@@ -127,9 +128,8 @@ def _thumbnail(source: Path, destination: Path) -> None:
 
 
 def _perceptual_hash(image: Image.Image) -> int:
-    values = list(
-        image.convert("L").resize((_HASH_SIZE, _HASH_SIZE), Image.Resampling.LANCZOS).getdata()
-    )
+    resized = image.convert("L").resize((_HASH_SIZE, _HASH_SIZE), Image.Resampling.LANCZOS)
+    values = list(cast(Iterable[int], resized.get_flattened_data()))
     centre = median(values)
     result = 0
     for index, value in enumerate(values):

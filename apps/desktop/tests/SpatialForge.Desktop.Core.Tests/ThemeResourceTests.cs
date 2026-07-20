@@ -81,6 +81,31 @@ public sealed class ThemeResourceTests
         }
     }
 
+    [Fact]
+    public void ModelViewerAllowsOnlyValidatedLocalModelHosts()
+    {
+        string host = File.ReadAllText(PathOf("ModelReviewView.xaml.cs"));
+        string viewer = File.ReadAllText(PathOf("ViewerIndex.html"));
+
+        Assert.Contains("uri.Host, \"spatialforge.viewer\"", host, StringComparison.Ordinal);
+        Assert.Contains("CoreWebView2HostResourceAccessKind.Allow", host, StringComparison.Ordinal);
+        Assert.DoesNotContain(
+            "args.Uri.StartsWith(\"https://spatialforge.viewer/\"",
+            host,
+            StringComparison.Ordinal);
+        Assert.Contains("connect-src 'self' https://*.spatialforge", viewer, StringComparison.Ordinal);
+        Assert.Contains("default-src 'none'", viewer, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void LongRunningLocalImportsDoNotUseGlobalHttpTimeout()
+    {
+        string app = File.ReadAllText(PathOf("App.xaml.cs"));
+
+        Assert.Contains("Timeout.InfiniteTimeSpan", app, StringComparison.Ordinal);
+        Assert.DoesNotContain("Timeout = TimeSpan.FromSeconds(30)", app, StringComparison.Ordinal);
+    }
+
     private static XDocument Load(params string[] parts) => XDocument.Load(PathOf(parts));
 
     private static string PathOf(params string[] parts) => Path.Combine(

@@ -3,9 +3,9 @@
 - Version: 0.2.0
 - Completed phases: Phase 0 foundation; Phase 1 backend/CLI; Phase 2 desktop;
   Phase 3 viewer/export; Phase 4 reliability
-- In progress: 0.2.0 Windows visual/runtime review and clean-machine release validation
+- In progress: 0.2.0 Windows visual/runtime review, signed production release, and clean-machine validation
 - UI refresh: semantic design system and all desktop screens implemented; Windows screenshots pending
-- Tests: 52 backend, 19 viewer, and 19 desktop/theme tests passed
+- Tests: 57 backend, 19 viewer, and 21 desktop/theme tests passed
 - Backend build: pinned wheel and OpenCV-enabled frozen executable built; authenticated
   loopback health smoke passed
 - Viewer build: strict TypeScript production build passed; offline assets bundle into WPF
@@ -14,30 +14,54 @@
   screenshot validation have not yet run
 - Current blockers: this Linux host cannot run WPF/WebView2 or Inno Setup, and no approved
   real COLMAP/texture-engine binary is available
-- Next recommended task: run 0.2.0 Windows packaging, capture the required screen/DPI matrix, and
-  complete keyboard/WebView2/clean-machine smoke tests
+- Public-source audit: host remediation complete; no known Python/npm/NuGet advisories or
+  high-confidence repository secrets detected; local author-history rewrite pending
+- Next recommended task: force-with-lease the sanitised history, enable GitHub private vulnerability
+  reporting/rulesets, then run Windows packaging and the required WebView2/80-photo/DPI smoke matrix
+
+## Public visibility hardening
+
+On 2026-07-19, the pre-publication audit findings were remediated on the development host:
+
+- Pillow was upgraded from 11.3.0 to 12.3.0. Fresh `pip-audit`, `npm audit --omit=dev`, and NuGet
+  direct/transitive scans each reported no known vulnerabilities.
+- The application now has an explicit source-visible evaluation licence, packaged backend licence
+  metadata, security/contribution/conduct policies, and code ownership.
+- Every GitHub Action reference is pinned to a full commit SHA; Inno Setup is pinned to 6.7.1.
+- WebView navigation validates the exact trusted origin. Model virtual hosts permit the CORS-checked
+  Three.js loader request and the CSP permits only the local `*.spatialforge` host namespace.
+- The desktop's global 30-second HTTP timeout was removed and Uvicorn access logging disabled. An
+  80-image synthetic import/analysis regression passed; full-resolution Windows reproduction remains.
+- Windows packaging emits relative checksum paths and supports optional signing with fail-closed
+  `-RequireSigning` validation. The current beta artifact remains unsigned and is documented as such.
 
 ## Latest validation
 
-On 2026-07-18, `.venv/bin/python scripts/validate.py` completed successfully after the UI refresh:
+On 2026-07-19, the aggregate host validation and explicit follow-up commands completed successfully
+after public-visibility hardening:
 
 - Ruff format/check passed for 47 checked Python files; strict mypy passed for 27 source files.
-- Pytest passed 52 tests in 6.00 seconds. Coverage includes migrations, authenticated loopback
+- Pytest passed 57 tests in 22.82 seconds. Coverage includes migrations, authenticated loopback
   access, path/command safety, selected project/export directories, immutable imports, EXIF GPS
   and capture devices, OpenCV quality analysis, connected duplicate groups, hardware history,
   CPU/CUDA preflight, durable orchestration, cancellation/retry/recovery, sparse PLY fallback,
   privacy-safe camera-pose export, registered-camera resource counts, multi-layer registration,
   artifact validation, CLI GLB export, optional validated export sidecars, partial-output rollback,
-  cleanup, and diagnostics.
+  cleanup, diagnostics, the backend access-log policy, and an 80-image import/analysis regression.
 - The mocked end-to-end flow imports and analyses images, runs all representative dense stages,
   registers sparse/dense/mesh layers, calibrates scale, and parses a validated GLB export.
 - Prettier, ESLint, and strict TypeScript passed; Vitest passed 19 tests with 98% statement,
   95.16% branch, and 100% line coverage for tested geometry/unit/layer/camera/export modules;
   Vite produced the offline viewer bundle.
-- `dotnet format --verify-no-changes`, the .NET 10 Release build, and 19 desktop tests passed;
+- `dotnet format --verify-no-changes`, the .NET 10 Release build, and 21 desktop tests passed;
   the build reported zero compiler warnings or errors. New coverage verifies required semantic
   resources, WCAG AA token contrast, explicit dark templates and popup resources, accessible names,
-  navigation active state, wizard content, and visible hardware/engine fallbacks.
+  navigation active state, wizard content, visible hardware/engine fallbacks, exact WebView origin
+  policy, CORS/CSP alignment, and removal of the global local-operation HTTP timeout.
+- A pinned isolated backend wheel built successfully and contains the migrations, application
+  licence, and `LicenseRef-SpatialForge-Source-Visible-1.0` metadata.
+- Current advisory checks reported no known vulnerabilities for the Python production closure,
+  npm production dependencies, or NuGet direct/transitive dependencies.
 
 Known non-failing advisories are Starlette's TestClient/httpx deprecation and Vite's 500 kB
 chunk-size warning. Both remain follow-up items rather than hidden failures.

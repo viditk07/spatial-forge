@@ -2,34 +2,36 @@
 
 ## Objective
 
-Complete the production-grade SpatialForge desktop visual refresh without changing local processing behavior.
+Harden SpatialForge for public source visibility and remediate the pre-publication audit findings.
 
 ## Acceptance criteria
 
-- Shared semantic tokens and explicit dark templates cover all WPF controls.
-- Shell, dashboard, wizard, review, processing, hardware, model, settings, and dialogs are consistent.
-- Existing routes, bindings, commands, backend calls, WebView protocol, and project data remain intact.
-- Theme, contrast, navigation, wizard, and missing-value regression tests pass.
-- WPF builds and the complete repository validation suite passes.
-- Windows screenshots, DPI checks, packaged launch, and installer are validated in Windows CI/hardware.
+- Production dependencies have no known advisories in current pip, npm, and NuGet scans.
+- Application and contribution rights are explicit before source visibility changes.
+- WebView model loading permits only validated local virtual hosts and passes regression checks.
+- CI actions and Windows installer tooling are pinned to immutable/reproducible versions.
+- Public security, contribution, conduct, and ownership guidance exists.
+- Personal email addresses are absent from the rewritten Git history.
+- Full backend, viewer, desktop, build, and disclosure scans pass.
 
 ## Files being modified
 
-Desktop resources, views, presentation view models/contracts, UI tests, version metadata, and UI documentation.
+Backend dependency and import reliability files, WebView hosting, CI workflows, packaging,
+governance documents, tests, and release-status documentation.
 
 ## Validation commands
 
 See `AGENTS.md`; exact completed results are recorded in `PROJECT_STATUS.md`.
-Latest host validation completed on 2026-07-17 with `.venv/bin/python scripts/validate.py`.
 
 ## Risks and blockers
 
-- This Linux host cannot execute WPF/WebView2, capture Windows screenshots, or run Inno Setup.
-- Windows DPI, keyboard traversal, packaged launch, and visual screenshot review remain external gates.
-- Existing real-engine and redistribution blockers remain unrelated to the visual refresh.
+- This Linux host cannot execute WPF/WebView2, Authenticode, or Inno Setup.
+- GitHub security settings and the required force-with-lease push cannot be changed without the
+  repository owner's authenticated GitHub session.
+- The reported full-resolution 80-photo failure needs confirmation on the affected Windows PC.
 
 ## Status
 
-Host-complete. The design system and all major desktop screens are refreshed, documented, and pass
-the aggregate validation suite. Windows runtime, screenshot/DPI, keyboard, WebView2 composition, and
-0.2.0 installer review remain external release gates.
+Implementation and host validation complete. Final history sanitisation and post-rewrite disclosure
+scan are in progress. Windows runtime and signed production-installer validation remain external
+binary-release gates, not blockers for making the source repository visible.
