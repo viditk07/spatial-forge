@@ -62,7 +62,7 @@
                     </Border>
 
                     <Border Style="{StaticResource InsetCard}" Padding="16" Margin="0,16,0,24">
-                        <Grid><StackPanel><TextBlock Text="SpatialForge 0.2" FontWeight="SemiBold" /><TextBlock Text="Local 3D reconstruction for Windows" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,3,0,0" /></StackPanel><TextBlock Text="No telemetry · no uploads · no accounts" Foreground="{StaticResource TextMuted}" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" /></Grid>
+                        <Grid><StackPanel><TextBlock Text="SpatialForge 0.2.1" FontWeight="SemiBold" /><TextBlock Text="Local 3D reconstruction for Windows" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,3,0,0" /></StackPanel><TextBlock Text="No telemetry · no uploads · no accounts" Foreground="{StaticResource TextMuted}" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" /></Grid>
                     </Border>
                 </StackPanel>
             </Grid>

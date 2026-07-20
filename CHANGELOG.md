@@ -4,6 +4,8 @@ All notable changes follow semantic versioning.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-19
+
 ### Added
 
 - Explicit source-visible evaluation licence, security policy, contribution policy, community
@@ -18,6 +20,8 @@ All notable changes follow semantic versioning.
   licence in the backend wheel.
 - Pinned GitHub Actions to immutable commit SHAs and Windows packaging to Inno Setup 6.7.1.
 - Release checksum manifests now use portable relative paths instead of CI runner paths.
+- Pre-remediation installer artifacts are explicitly excluded from public distribution and must be
+  rebuilt with Pillow 12.3.0 or newer.
 
 ### Fixed
 

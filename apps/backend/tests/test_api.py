@@ -34,7 +34,7 @@ def test_launch_token_is_required(tmp_path: Path) -> None:
 def test_health_reports_local_only(client: TestClient) -> None:
     response = client.get("/api/v1/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok", "version": "0.2.0", "local_only": True}
+    assert response.json() == {"status": "ok", "version": "0.2.1", "local_only": True}
 
 
 def test_create_and_retrieve_project(client: TestClient) -> None:

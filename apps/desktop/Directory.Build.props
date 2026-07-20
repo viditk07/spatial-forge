@@ -14,5 +14,8 @@
     <Company>SpatialForge</Company>
     <Copyright>Copyright © 2026 Vidit Kasliwal. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/viditk07/spatial-forge</RepositoryUrl>
+    <Version>0.2.1</Version>
+    <AssemblyVersion>0.2.1.0</AssemblyVersion>
+    <FileVersion>0.2.1.0</FileVersion>
   </PropertyGroup>
 </Project>

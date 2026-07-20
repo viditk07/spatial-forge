@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import re
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -39,3 +41,16 @@ def test_public_governance_documents_are_explicit() -> None:
     assert "no licence is granted to copy, modify, distribute" in normalised
     for path in ("SECURITY.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", ".github/CODEOWNERS"):
         assert (ROOT / path).is_file()
+
+
+def test_release_version_is_consistent_across_components() -> None:
+    backend = tomllib.loads((ROOT / "apps/backend/pyproject.toml").read_text(encoding="utf-8"))
+    viewer = json.loads((ROOT / "apps/viewer/package.json").read_text(encoding="utf-8"))
+    installer = (ROOT / "packaging/windows/SpatialForge.iss").read_text(encoding="utf-8")
+    desktop = (ROOT / "apps/desktop/Directory.Build.props").read_text(encoding="utf-8")
+
+    version = backend["project"]["version"]
+    assert version == "0.2.1"
+    assert viewer["version"] == version
+    assert f'#define AppVersion "{version}"' in installer
+    assert f"<Version>{version}</Version>" in desktop

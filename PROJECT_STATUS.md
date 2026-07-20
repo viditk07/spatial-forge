@@ -1,16 +1,16 @@
 # Project Status
 
-- Version: 0.2.0
+- Version: 0.2.1
 - Completed phases: Phase 0 foundation; Phase 1 backend/CLI; Phase 2 desktop;
   Phase 3 viewer/export; Phase 4 reliability
-- In progress: 0.2.0 Windows visual/runtime review, signed production release, and clean-machine validation
+- In progress: 0.2.1 Windows visual/runtime review, signed production release, and clean-machine validation
 - UI refresh: semantic design system and all desktop screens implemented; Windows screenshots pending
-- Tests: 57 backend, 19 viewer, and 21 desktop/theme tests passed
+- Tests: 58 backend, 19 viewer, and 21 desktop/theme tests passed
 - Backend build: pinned wheel and OpenCV-enabled frozen executable built; authenticated
   loopback health smoke passed
 - Viewer build: strict TypeScript production build passed; offline assets bundle into WPF
 - Desktop build: refreshed .NET 10 WPF Release cross-build passed with zero warnings or errors
-- Packaging: 0.1.0 Windows CI installer succeeded previously; refreshed 0.2.0 installer/runtime and
+- Packaging: older Windows CI installers succeeded; remediated 0.2.1 installer/runtime and
   screenshot validation have not yet run
 - Current blockers: this Linux host cannot run WPF/WebView2 or Inno Setup, and no approved
   real COLMAP/texture-engine binary is available
@@ -35,6 +35,9 @@ On 2026-07-19, the pre-publication audit findings were remediated on the develop
   80-image synthetic import/analysis regression passed; full-resolution Windows reproduction remains.
 - Windows packaging emits relative checksum paths and supports optional signing with fail-closed
   `-RequireSigning` validation. The current beta artifact remains unsigned and is documented as such.
+- Existing 0.1.0/0.2.0 installers were built before the Pillow 12.3.0 remediation and must not be
+  exposed with a public repository. Rebuild from the sanitised branch, rerun the Windows package
+  smoke, and replace or remove those release assets before changing repository visibility.
 
 ## Latest validation
 
@@ -42,7 +45,7 @@ On 2026-07-19, the aggregate host validation and explicit follow-up commands com
 after public-visibility hardening:
 
 - Ruff format/check passed for 47 checked Python files; strict mypy passed for 27 source files.
-- Pytest passed 57 tests in 22.82 seconds. Coverage includes migrations, authenticated loopback
+- Pytest passed 58 tests in 18.68 seconds. Coverage includes migrations, authenticated loopback
   access, path/command safety, selected project/export directories, immutable imports, EXIF GPS
   and capture devices, OpenCV quality analysis, connected duplicate groups, hardware history,
   CPU/CUDA preflight, durable orchestration, cancellation/retry/recovery, sparse PLY fallback,
@@ -59,7 +62,7 @@ after public-visibility hardening:
   resources, WCAG AA token contrast, explicit dark templates and popup resources, accessible names,
   navigation active state, wizard content, visible hardware/engine fallbacks, exact WebView origin
   policy, CORS/CSP alignment, and removal of the global local-operation HTTP timeout.
-- A pinned isolated backend wheel built successfully and contains the migrations, application
+- A pinned isolated 0.2.1 backend wheel built successfully and contains the migrations, application
   licence, and `LicenseRef-SpatialForge-Source-Visible-1.0` metadata.
 - Current advisory checks reported no known vulnerabilities for the Python production closure,
   npm production dependencies, or NuGet direct/transitive dependencies.
@@ -96,5 +99,5 @@ WebView message types, model operations, and persistence contracts. Presentation
 humanize project/stage/model/preset values and prevent blank optional capability fields.
 
 This host cannot launch WPF or WebView2, so no claim is made that screenshots, tab traversal,
-Windows title-bar composition, 100–200% DPI, or packaged 0.2.0 execution passed. Those remain the
+Windows title-bar composition, 100–200% DPI, or packaged 0.2.1 execution passed. Those remain the
 specific Windows UI release gates documented in `docs/product/UI_REFRESH_PLAN.md`.

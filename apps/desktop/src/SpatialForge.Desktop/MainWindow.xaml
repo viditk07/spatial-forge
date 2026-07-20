@@ -70,7 +70,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                <TextBlock Grid.Row="4" Text="SpatialForge 0.2 · Offline" Foreground="{StaticResource TextMuted}"
+                <TextBlock Grid.Row="4" Text="SpatialForge 0.2.1 · Offline" Foreground="{StaticResource TextMuted}"
                            FontSize="10" HorizontalAlignment="Center" />
             </Grid>
         </Border>

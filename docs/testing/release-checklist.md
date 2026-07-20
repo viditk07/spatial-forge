@@ -11,6 +11,8 @@
 - Confirm normal use makes no external network connection.
 - Confirm diagnostic reports contain no image/model/GPS/source-path content.
 - Review third-party versions, notices, redistribution terms, and SHA-256 manifest.
+- Confirm the packaged notice manifest records Pillow 12.3.0 or newer and remove every installer
+  produced before the latest security dependency audit.
 - Confirm the checksum manifest contains relative paths only.
 - For production distribution, run packaging with `-RequireSigning` and verify a valid timestamped
   Authenticode signature. Label any permitted unsigned beta artifact explicitly.
