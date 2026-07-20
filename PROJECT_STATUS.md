@@ -66,6 +66,9 @@ after public-visibility hardening:
   licence, and `LicenseRef-SpatialForge-Source-Visible-1.0` metadata.
 - Current advisory checks reported no known vulnerabilities for the Python production closure,
   npm production dependencies, or NuGet direct/transitive dependencies.
+- The latest official Gitleaks release scanned all 17 locally reachable old/new commits with
+  redaction enabled and reported no leaks. A separate reachable-`main` scan found no personal
+  email metadata, personal file paths, high-confidence tokens, generated binaries, or large blobs.
 
 Known non-failing advisories are Starlette's TestClient/httpx deprecation and Vite's 500 kB
 chunk-size warning. Both remain follow-up items rather than hidden failures.
