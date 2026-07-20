@@ -14,8 +14,9 @@
   screenshot validation have not yet run
 - Current blockers: this Linux host cannot run WPF/WebView2 or Inno Setup, and no approved
   real COLMAP/texture-engine binary is available
-- Public-source audit: host remediation complete; no known Python/npm/NuGet advisories or
-  high-confidence repository secrets detected; local author-history rewrite pending
+- Public-source audit: host remediation complete; no known Python/npm/NuGet advisories,
+  high-confidence repository secrets, personal-email commit metadata, or large binary blobs are
+  reachable from the rewritten local `main` history; force-with-lease push pending
 - Next recommended task: force-with-lease the sanitised history, enable GitHub private vulnerability
   reporting/rulesets, then run Windows packaging and the required WebView2/80-photo/DPI smoke matrix
 

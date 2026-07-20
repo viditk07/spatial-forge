@@ -32,6 +32,7 @@ See `AGENTS.md`; exact completed results are recorded in `PROJECT_STATUS.md`.
 
 ## Status
 
-Implementation and host validation complete. Final history sanitisation and post-rewrite disclosure
-scan are in progress. Windows runtime and signed production-installer validation remain external
-binary-release gates, not blockers for making the source repository visible.
+Complete locally. Implementation, validation, history sanitisation, and the post-rewrite disclosure
+scan pass. The rewritten branch must be pushed with the documented force-with-lease command before
+repository visibility changes. Windows runtime and signed production-installer validation remain
+external binary-release gates, not blockers for making the source repository visible.
