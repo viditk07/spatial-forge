@@ -4,6 +4,12 @@ All notable changes follow semantic versioning.
 
 ## [Unreleased]
 
+### Documentation
+
+- Reframed the repository README for the public 0.2.1 evaluation beta with a release link,
+  prominent unsigned-installer warning, verified capabilities, privacy/licence context, and explicit
+  real-engine, full-resolution capture, and clean-machine limitations.
+
 ## [0.2.1] - 2026-07-19
 
 ### Added

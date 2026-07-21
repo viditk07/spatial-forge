@@ -2,37 +2,32 @@
 
 ## Objective
 
-Harden SpatialForge for public source visibility and remediate the pre-publication audit findings.
+Present SpatialForge's public 0.2.1 beta accurately in the repository landing documentation.
 
 ## Acceptance criteria
 
-- Production dependencies have no known advisories in current pip, npm, and NuGet scans.
-- Application and contribution rights are explicit before source visibility changes.
-- WebView model loading permits only validated local virtual hosts and passes regression checks.
-- CI actions and Windows installer tooling are pinned to immutable/reproducible versions.
-- Public security, contribution, conduct, and ownership guidance exists.
-- Personal email addresses are absent from the rewritten Git history.
-- Full backend, viewer, desktop, build, and disclosure scans pass.
+- The README identifies SpatialForge as an early evaluation beta rather than a finished product.
+- The public 0.2.1 pre-release and unsigned-installer warning are visible.
+- Implemented capabilities are separated clearly from real-engine and Windows validation claims.
+- Privacy, licence, contribution, installation, and security-reporting context is explicit.
+- Linked project status reflects the live public repository and release state.
 
 ## Files being modified
 
-Backend dependency and import reliability files, WebView hosting, CI workflows, packaging,
-governance documents, tests, and release-status documentation.
+`README.md`, `CURRENT_TASK.md`, `PROJECT_STATUS.md`, and `CHANGELOG.md`.
 
 ## Validation commands
 
-See `AGENTS.md`; exact completed results are recorded in `PROJECT_STATUS.md`.
+Markdown link and whitespace checks, repository diff review, and authenticated read-only GitHub API
+checks for release, visibility, security configuration, open alerts, and branch protection.
 
 ## Risks and blockers
 
-- This Linux host cannot execute WPF/WebView2, Authenticode, or Inno Setup.
-- GitHub security settings and the required force-with-lease push cannot be changed without the
-  repository owner's authenticated GitHub session.
-- The reported full-resolution 80-photo failure needs confirmation on the affected Windows PC.
+- The 0.2.1 installer is unsigned and complete installed-application validation remains pending.
+- Real COLMAP reconstruction and the reported full-resolution 80-photo failure remain unverified.
+- Documentation must not imply that mocked engine coverage proves real reconstruction support.
 
 ## Status
 
-Complete locally. Implementation, validation, history sanitisation, and the post-rewrite disclosure
-scan pass. The rewritten branch must be pushed with the documented force-with-lease command before
-repository visibility changes. Windows runtime and signed production-installer validation remain
-external binary-release gates, not blockers for making the source repository visible.
+Complete. Public-facing documentation now distinguishes the available unsigned evaluation beta
+from the pending real-engine, representative-capture, signed-release, and Windows runtime gates.
