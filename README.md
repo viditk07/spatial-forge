@@ -1,82 +1,113 @@
 # SpatialForge
 
-SpatialForge is a local-only Windows 11 desktop photogrammetry application. It imports
-smartphone photographs, evaluates capture quality, orchestrates COLMAP-compatible
-reconstruction, previews and scales results, and exports GLB models without uploading
-user data.
+SpatialForge is a privacy-first Windows 11 application for turning smartphone photographs into
+local 3D reconstruction projects. It preserves imported originals, analyses image quality,
+orchestrates a user-supplied COLMAP installation, and provides an offline 3D workspace for model
+review, scaling, measurement, cropping, and export.
 
-The repository is under active MVP development. See [PROJECT_STATUS.md](PROJECT_STATUS.md)
-for verified capabilities and limitations, and [ARCHITECTURE.md](ARCHITECTURE.md) for
-the system design.
+SpatialForge is currently an **early evaluation beta**, not a finished photogrammetry product.
+The deterministic mock-engine workflow is well tested, but representative real-COLMAP,
+full-resolution capture, clean-machine, and GPU validation are still release gates.
 
-## Licence and contributions
+## Current release
 
-SpatialForge is currently source-visible evaluation software, not an open-source project.
-[LICENSE.txt](LICENSE.txt) permits personal evaluation of unmodified official binaries but does
-not grant source redistribution or modification rights. External code contributions are not
-accepted until separate contribution terms are published; see [CONTRIBUTING.md](CONTRIBUTING.md)
-and [SECURITY.md](SECURITY.md).
+[SpatialForge 0.2.1 Security Remediation](https://github.com/viditk07/spatial-forge/releases/tag/v0.2.1)
+is the current public Windows pre-release. The Windows packaging workflow built the installer and
+passed the frozen backend's authenticated loopback health check.
 
-The refreshed desktop visual system is documented in
-[UI_DESIGN_SYSTEM.md](docs/architecture/UI_DESIGN_SYSTEM.md), with reusable composition guidance
-in [UI_COMPONENTS.md](docs/architecture/UI_COMPONENTS.md).
+The installer is unsigned, so Windows may display a SmartScreen warning. It is provided only for
+personal evaluation under [LICENSE.txt](LICENSE.txt). Do not use SpatialForge for production,
+surveying, structural, safety-critical, or legal work. See the [installation guide](docs/user-guide/installation.md)
+before running it.
 
-## Workspace layout
+## What the beta includes
 
-- `apps/backend` - Python FastAPI backend, CLI, SQLite models, migrations, image analysis,
-  reconstruction orchestration, export services, and tests.
-- `apps/desktop` - .NET/WPF desktop shell, MVVM core, WebView2 viewer host, and desktop tests.
-- `apps/viewer` - TypeScript/Three.js embedded model viewer and viewer tests.
-- `docs` - architecture, development, testing, deployment, product, and user-guide material.
-- `packaging/windows` and `scripts/package-windows.ps1` - Windows packaging definition and release
-  packaging script.
-- `packages`, `engines`, `samples`, `tests`, and `tools` - shared contracts, engine placeholders,
-  fixtures, end-to-end test space, and supporting tools.
+- Local project creation with durable SQLite state and per-project file layouts.
+- Immutable photo import, metadata extraction, thumbnails, blur/exposure/resolution/feature
+  analysis, and exact or perceptual duplicate grouping.
+- Hardware and dependency detection with Fast Preview, room, exterior, high-quality, and
+  CPU-compatible processing presets.
+- A durable, cancellable, retryable COLMAP command pipeline with stage checkpoints and structured
+  local logs.
+- An offline WPF and Three.js workspace for sparse, dense, mesh, texture, and camera layers.
+- Approximate scale calibration, measurement, crop preview, mesh simplification, and validated
+  GLB/OBJ/PLY export services.
+- A self-contained Windows package containing the WPF shell, local Python backend, viewer assets,
+  dependency notices, and no bundled reconstruction engine.
 
-## Repository quick start
+## Important limitations
 
-Python 3.12+, Node.js 24+, and .NET SDK 10 are required for the full
-workspace. External engines are optional in development because adapters have fake-tool
-tests. Production reconstruction requires a separately verified COLMAP installation.
+- COLMAP, OpenMVS, and Blender are **not bundled**. Reconstruction is unavailable until a compatible
+  COLMAP executable is installed separately; real-engine compatibility has not yet been certified.
+- Dense reconstruction generally depends on an appropriate NVIDIA CUDA setup. CPU mode provides a
+  conservative sparse path and does not promise dense or textured output.
+- Dedicated production texture generation is not complete, so textured output is engine- and
+  input-dependent.
+- The automated 80-image regression uses synthetic fixtures. The previously reported crash with
+  approximately 80 full-resolution phone photographs still needs reproduction on the affected
+  Windows hardware.
+- The packaged installer has not yet passed the complete clean-machine install, WPF/WebView2,
+  high-DPI, representative capture, real-engine, and uninstall matrix.
+- Geometry and measurements are approximate and are not survey-grade.
 
-```bash
-python -m venv .venv
-.venv/bin/python -m pip install -e 'apps/backend[dev,vision,packaging]'
-cd apps/viewer && npm ci && cd ../..
-.dotnet/dotnet restore apps/desktop/SpatialForge.sln
-.venv/bin/python scripts/validate.py
-```
-
-The validation script runs backend formatting, linting, type checking, backend tests, viewer
-formatting/lint/type checks/tests/build, and desktop formatting/build/tests.
+The complete list is maintained in [known limitations](docs/product/known-limitations.md), while
+[PROJECT_STATUS.md](PROJECT_STATUS.md) records validation evidence and current release gates.
 
 ## Local-only privacy model
 
-SpatialForge is designed around local processing:
+Normal application operation does not require a cloud service:
 
-- The backend binds only to `127.0.0.1`.
-- No telemetry, user accounts, cloud storage, or automatic uploads are part of the MVP.
-- Imported originals are preserved unchanged; working copies and derived artifacts live inside the
-  user project directory.
-- Logs and diagnostic reports are local files intended for manual user sharing only.
+- The backend binds only to `127.0.0.1` and requires a per-launch authentication token.
+- No user accounts, telemetry, crash uploads, cloud storage, or automatic update checks are enabled.
+- Imported originals are preserved byte-for-byte; working copies and derived artifacts live in the
+  selected local project directory.
+- GPS is not shown in normal diagnostics and can be removed from working copies during import.
+- Logs and diagnostic reports stay local unless the user manually shares them.
 
-## Packaging status
+## Licence, security, and contributions
 
-Windows packaging is performed by `scripts/package-windows.ps1`; see
-`docs/deployment/windows-packaging.md` for the release gate and current external-engine policy.
-The Linux development host can build and smoke-test host-native backend artifacts and cross-publish
-the self-contained `win-x64` WPF output, but final installer execution, WPF/WebView2 runtime smoke,
-and representative real-engine reconstruction must run on Windows 11 with approved engine binaries.
+SpatialForge is **source-visible evaluation software, not an open-source project**.
+[LICENSE.txt](LICENSE.txt) permits personal evaluation of unmodified official binaries but does not
+grant rights to modify or redistribute the source or binaries. External code contributions are not
+currently accepted; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Development rules
+Report vulnerabilities through GitHub's private vulnerability reporting flow and follow
+[SECURITY.md](SECURITY.md). Never include photographs, models, GPS data, credentials, diagnostic
+archives, or full local paths in a public report.
 
-- Do not commit local virtual environments, toolchains, generated project data, packaged binaries,
-  logs, databases, or proprietary engine binaries.
-- Do not bundle COLMAP, OpenMVS, Blender, or other engine binaries until exact redistribution terms
-  and transitive licences are verified.
-- Keep `PROJECT_STATUS.md`, `CURRENT_TASK.md`, `DECISIONS.md`, and `CHANGELOG.md` aligned with
-  implementation and validation evidence.
-- Do not claim reconstruction, packaging, or Windows runtime support without an executed validation
-  command recorded in `PROJECT_STATUS.md`.
+## Developer quick start
 
-SpatialForge has no cloud service and the API listens only on `127.0.0.1`.
+The full workspace requires Python 3.12+, Node.js 24+, and the .NET 10 SDK. On Windows PowerShell:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e "apps/backend[dev,vision,packaging]"
+npm --prefix apps/viewer ci
+dotnet restore apps/desktop/SpatialForge.sln
+.\.venv\Scripts\python.exe scripts/validate.py
+```
+
+Build the Windows package with:
+
+```powershell
+pwsh ./scripts/package-windows.ps1
+```
+
+Fake engine fixtures are the deterministic development and CI path. A successful mocked pipeline
+must not be presented as evidence that a particular COLMAP binary, camera set, GPU, or Windows
+machine has completed a real reconstruction.
+
+## Repository layout
+
+- `apps/backend` — FastAPI backend, CLI, SQLite data layer, image analysis, reconstruction
+  orchestration, model operations, packaging entry point, and tests.
+- `apps/desktop` — .NET/WPF shell, MVVM core, WebView2 host, and desktop tests.
+- `apps/viewer` — strict TypeScript/Three.js embedded viewer and Vitest suite.
+- `docs` — architecture, product, development, testing, deployment, and user documentation.
+- `packaging/windows` and `scripts/package-windows.ps1` — Inno Setup definition and reproducible
+  Windows packaging workflow.
+- `packages`, `engines`, `samples`, `tests`, and `tools` — contracts, adapter boundaries, legal
+  fixtures, end-to-end tests, and development support.
+
+Start with [ARCHITECTURE.md](ARCHITECTURE.md), [REPO_MAP.md](REPO_MAP.md), and
+[AGENTS.md](AGENTS.md) before changing the implementation.

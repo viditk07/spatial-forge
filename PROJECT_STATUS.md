@@ -3,22 +3,37 @@
 - Version: 0.2.1
 - Completed phases: Phase 0 foundation; Phase 1 backend/CLI; Phase 2 desktop;
   Phase 3 viewer/export; Phase 4 reliability
-- In progress: 0.2.1 Windows visual/runtime review, signed production release, and clean-machine validation
+- In progress: Windows visual/runtime review, signed production release, representative real-engine
+  reconstruction, full-resolution capture validation, and clean-machine validation
 - UI refresh: semantic design system and all desktop screens implemented; Windows screenshots pending
 - Tests: 58 backend, 19 viewer, and 21 desktop/theme tests passed
 - Backend build: pinned wheel and OpenCV-enabled frozen executable built; authenticated
   loopback health smoke passed
 - Viewer build: strict TypeScript production build passed; offline assets bundle into WPF
 - Desktop build: refreshed .NET 10 WPF Release cross-build passed with zero warnings or errors
-- Packaging: older Windows CI installers succeeded; remediated 0.2.1 installer/runtime and
-  screenshot validation have not yet run
+- Packaging: the remediated 0.2.1 Windows workflow built the unsigned installer and passed its
+  frozen-backend health smoke; installed WPF/WebView2 and screenshot validation have not yet run
 - Current blockers: this Linux host cannot run WPF/WebView2 or Inno Setup, and no approved
   real COLMAP/texture-engine binary is available
-- Public-source audit: host remediation complete; no known Python/npm/NuGet advisories,
-  high-confidence repository secrets, personal-email commit metadata, or large binary blobs are
-  reachable from the rewritten local `main` history; force-with-lease push pending
-- Next recommended task: force-with-lease the sanitised history, enable GitHub private vulnerability
-  reporting/rulesets, then run Windows packaging and the required WebView2/80-photo/DPI smoke matrix
+- Public-source status: the sanitised history is public; private vulnerability reporting,
+  Dependabot security updates, secret scanning, push protection, weekly CodeQL, and `main` branch
+  protection are enabled; current GitHub secret, dependency, and code-scanning alert queues are empty
+- Release: the unsigned 0.2.1 security-remediated Windows beta, installed-file checksum manifest,
+  and third-party dependency manifest are published as a GitHub pre-release
+- Next recommended task: run the installed 0.2.1 package through the required WebView2,
+  full-resolution 80-photo, DPI, clean-machine, uninstall, and real-COLMAP smoke matrix
+
+## Public README validation
+
+On 2026-07-20, the repository landing context was checked against the live GitHub repository:
+
+- `gh release view v0.2.1` confirmed the public unsigned pre-release and all three release assets.
+- Authenticated read-only API checks confirmed public visibility, enabled private vulnerability
+  reporting, Dependabot security updates, secret scanning, push protection, weekly CodeQL, protected
+  `main`, and zero open Dependabot, secret-scanning, or code-scanning alerts.
+- `git diff --check` and local README link-target validation passed.
+- `pytest apps/backend/tests/test_release_hardening.py -q` passed 4 tests with one upstream
+  Starlette TestClient/httpx deprecation warning.
 
 ## Public visibility hardening
 
@@ -35,9 +50,12 @@ On 2026-07-19, the pre-publication audit findings were remediated on the develop
   80-image synthetic import/analysis regression passed; full-resolution Windows reproduction remains.
 - Windows packaging emits relative checksum paths and supports optional signing with fail-closed
   `-RequireSigning` validation. The current beta artifact remains unsigned and is documented as such.
-- Existing 0.1.0/0.2.0 installers were built before the Pillow 12.3.0 remediation and must not be
-  exposed with a public repository. Rebuild from the sanitised branch, rerun the Windows package
-  smoke, and replace or remove those release assets before changing repository visibility.
+- Pre-remediation 0.1.0/0.2.0 tags and release assets were removed. The replacement 0.2.1 Windows
+  workflow succeeded and its generated dependency manifest records Pillow 12.3.0.
+- The repository is public with protected `main`, required backend/viewer/desktop checks, private
+  vulnerability reporting, Dependabot, secret scanning, push protection, and weekly CodeQL.
+  CodeQL's seven local-path findings were reviewed as intended local folder/known-folder flows,
+  dismissed with audit comments as false positives, and no security alert category remains open.
 
 ## Latest validation
 
